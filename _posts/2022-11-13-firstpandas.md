@@ -2,7 +2,7 @@
 layout: single
 title: "Pandas Apartment Sale Price Data 1"
 categories: pandas
-tag: [python, pandas]
+tag: [Python, pandas]
 author_profile: false
 sidebar:
     nav: "docs"
