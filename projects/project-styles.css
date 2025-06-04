@@ -1,0 +1,479 @@
+.project-detail {
+    padding: 8rem 2rem 4rem;
+    min-height: 100vh;
+    background: #fff;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #111;
+}
+
+.project-header {
+    margin-bottom: 3rem;
+}
+
+.project-header h1 {
+    font-size: 2.5rem;
+    color: #111;
+    margin-bottom: 1rem;
+}
+
+.project-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+}
+
+.project-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.paper-link {
+    color: #111;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.paper-link:hover {
+    color: #666;
+    text-decoration: underline;
+}
+
+.project-content {
+    max-width: 1000px;
+}
+
+.project-section {
+    margin-bottom: 4rem;
+}
+
+.project-section h2,
+.project-section h3 {
+    scroll-margin-top: 8rem;
+}
+
+.project-section h2 {
+    font-size: 2rem;
+    color: #111;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+.project-section h3 {
+    font-size: 1.5rem;
+    color: #111;
+    margin: 2rem 0 1rem;
+}
+
+.project-section p {
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.project-section ul, .project-section ol {
+    margin-left: 1.5rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+.project-section ul li, .project-section ol li {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+}
+
+.hypothesis-box {
+    background: #f8f8f8;
+    border-left: 4px solid #111;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.hypothesis-box h3 {
+    margin-top: 0;
+    color: #111;
+}
+
+.hypothesis-box p {
+    margin-bottom: 0.8rem;
+}
+
+.hypothesis-box p:last-child {
+    margin-bottom: 0;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background: #fff;
+}
+
+.data-table th {
+    color: #111;
+    font-weight: 600;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+}
+
+.data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #444;
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover td {
+    background: #fafafa;
+}
+
+.data-table td[rowspan] {
+    font-weight: 500;
+    color: #111;
+    background: #fff;
+}
+
+.data-table td[rowspan]:hover {
+    background: #fafafa;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.tech-item {
+    background: #f0f0f0;
+    color: #333;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease;
+}
+
+.tech-item:hover {
+    background: #e0e0e0;
+}
+
+.project-section ol {
+    margin-left: 2.5rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+    counter-reset: item;
+}
+
+.project-section ol li {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.project-section ol li::marker {
+    font-weight: 600;
+    color: #111;
+}
+
+.toc {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    padding: 2rem;
+    max-width: 300px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.toc h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: none;
+    padding-bottom: 0;
+    color: #111;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.toc > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.toc ul ul {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    border-left: 2px solid #e0e0e0;
+    padding-left: 1rem;
+}
+
+.toc li {
+    margin-bottom: 0.3rem;
+}
+
+.toc li:last-child {
+    margin-bottom: 0;
+}
+
+.toc a {
+    color: #444;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.toc a:hover {
+    color: #111;
+    background: #f8f8f8;
+    transform: translateX(4px);
+}
+
+.toc ul ul a {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.toc ul ul a:hover {
+    color: #111;
+}
+
+@media (max-width: 1200px) {
+    .toc {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        max-height: none;
+        margin-bottom: 2rem;
+        right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-detail {
+        padding: 6rem 1rem 3rem;
+    }
+
+    .project-header h1 {
+        font-size: 2rem;
+    }
+
+    .project-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .project-content {
+        padding: 1.5rem;
+        border-radius: 8px;
+    }
+
+    .project-section {
+        margin-bottom: 3rem;
+    }
+
+    .project-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .project-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .project-section ol {
+        margin-left: 2rem;
+    }
+
+    .data-table {
+        font-size: 0.9rem;
+    }
+
+    .data-table th, .data-table td {
+        padding: 0.8rem;
+    }
+
+    .toc {
+        padding: 1.5rem;
+    }
+
+    .toc h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .toc > ul {
+        gap: 0.8rem;
+    }
+
+    .toc ul ul {
+        margin-left: 0.8rem;
+        padding-left: 0.8rem;
+    }
+}
+
+/* --- Project Image Group Styling --- */
+.project-image-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2.5rem 0;
+}
+
+.project-image-group figure {
+    flex: 1 1 350px;
+    max-width: 600px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+}
+
+.project-image-group img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.project-image-group figcaption {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .project-image-group {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .project-image-group figure {
+        max-width: 100%;
+        padding: 0;
+    }
+}
+
+/* --- Project Image Row Styling --- */
+.project-image-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 2.5rem 0;
+}
+
+.project-image-row img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .project-image-row {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+}
+
+/* Slightly reduce the size of specific MLB images */
+.project-image-row img[src*="mlb-model comparison.png"],
+.project-image-row img[src*="mlb-mixed effects model.png"],
+.project-image-row img[src*="mlb-home run success rate.png"],
+.project-image-row img[src*="mlb-swing length and bat speed.png"] {
+  max-width: 70%;
+  margin: 0 auto;
+  display: block;
+}
+
+.project-image-row img[src*="mlb-youden-index.png"] {
+  max-width: 40%;
+  margin: 0 auto;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .project-image-row img[src*="mlb-youden-index.png"],
+  .project-image-row img[src*="mlb-model comparison.png"],
+  .project-image-row img[src*="mlb-mixed effects model.png"],
+  .project-image-row img[src*="mlb-home run success rate.png"],
+  .project-image-row img[src*="mlb-swing length and bat speed.png"] {
+    max-width: 100%;
+  }
+}
+
+/* Toggleable details/summary for variable list */
+details {
+  margin-bottom: 1.5rem;
+}
+details > summary {
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: #f8f8f8;
+  color: #222;
+  outline: none;
+  transition: background 0.2s;
+  list-style: none;
+}
+details[open] > summary {
+  background: #f0f0f0;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary:before {
+  content: '\25B6';
+  display: inline-block;
+  margin-right: 0.5em;
+  transition: transform 0.2s;
+}
+details[open] > summary:before {
+  transform: rotate(90deg);
+} 

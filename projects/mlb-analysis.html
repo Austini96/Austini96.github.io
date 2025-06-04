@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLB Home Run Analysis - Austin Lee</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">Austin Lee</div>
+        <ul class="nav-menu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Project Detail -->
+    <section class="project-detail">
+        <div class="container">
+            <a href="../index.html#projects" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+            
+            <div class="project-header">
+                <h1>CSAS 2025: Quantifying MLB Home Run Attempts</h1>
+                <div class="project-meta">
+                    <span><i class="fas fa-calendar"></i> 2025</span>
+                    <span><i class="fas fa-tag"></i> Sports Analytics</span>
+                    <span><i class="fas fa-code"></i> R, Statistical Modeling</span>
+                </div>
+            </div>
+
+            <div class="toc">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#overview">1. Overview</a>
+                        <ul>
+                            <li><a href="#proposal">1-1. Proposal</a></li>
+                            <li><a href="#variables">1-2. Variables</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#data-cleaning">2. Data Cleaning</a>
+                        <ul>
+                            <li><a href="#factors">2-1. Factors influencing a home run</a></li>
+                            <li><a href="#threshold">2-2. Setting optimal threshold</a></li>
+                            <li><a href="#variable-selection">2-3. Variable Selection Method</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#modeling">3. Data Modeling</a>
+                        <ul>
+                            <li><a href="#model-fitting">3-1. Model Fitting</a></li>
+                            <li><a href="#best-model">3-2. Result of The Best Performing Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#results">4. Top 10 Batters with Highest Home Run Success Rate</a></li>
+                </ul>
+            </div>
+
+            <div class="project-content">
+                <div class="project-section" id="overview">
+                    <h2>1. Overview</h2>
+                    <p>For this data challenge, your goal is to use new baseball data on bat speed and swing length to analyze some aspect of the pitcher/batter interaction. We provide pitch-level data from Baseball Savant for 346,250 Major League Baseball plate appearances from 4/2/2024 to 6/30/2024, including relevant Statcast data along with bat speed and swing length on pitches with a swing tracked. Data from the second half of the season will be added after the conclusion of the regular season. Your analysis should involve bat speed and swing length to study any topic related to the batter, pitcher, or batter-pitcher interaction during an at bat.</p>
+                    <p>Since these data are new, there are a variety of topics that have not previously been studied. Below are a few example topics. However, we note that this list is far from exhaustive. Participants should feel free to study any aspect of the batter, pitcher, or batter-pitcher interaction that interests them, provided that bat speed and swing length are used in the analysis in some meaningful way.</p>
+                    <h3 id="proposal">1-1. Proposal</h3>
+                    <p>Questions:</p>
+                    <p><b>1. Which conditions indicate a batter most likely to try to hit a home run (Michael & Austin)</b></p>
+                    <ul>
+                        <li>Define which variables determine a home run attempt (swing velocity, angle etc.)</li>
+                        <li>Find distribution of numerical variables that constitute home run attempt</li>
+                        <li>Transform events variable to make a separate variable determining home run attempts</li>
+                        <li>Fit various classification models - What score, innings, batting counts, out counts, and runners are related to successful home runs</li>
+                        <li>Find a trend related to home run attempts</li>
+                    </ul>
+                    <h3 id="variables">1-2. Variables</h3>
+                    <details>
+                    <summary><b>Variable List</b></summary>
+                    <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>column name</th><th>description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>pitch_type</td><td>The type of pitch derived from Statcast.</td></tr>
+                            <tr><td>game_date</td><td>Date of the Game.</td></tr>
+                            <tr><td>release_speed</td><td>Pitch velocities from 2008-16 are via Pitch F/X, and adjusted to roughly out-of-hand release point. All velocities from 2017 and beyond are Statcast, which are reported out-of-hand.</td></tr>
+                            <tr><td>release_pos_x</td><td>Horizontal Release Position of the ball measured in feet from the catcher's perspective.</td></tr>
+                            <tr><td>release_pos_z</td><td>Vertical Release Position of the ball measured in feet from the catcher's perspective.</td></tr>
+                            <tr><td>player_name</td><td>Player's name tied to the event of the search.</td></tr>
+                            <tr><td>batter</td><td>MLB Player Id tied to the play event.</td></tr>
+                            <tr><td>pitcher</td><td>MLB Player Id tied to the play event.</td></tr>
+                            <tr><td>events</td><td>Event of the resulting Plate Appearance.</td></tr>
+                            <tr><td>description</td><td>Description of the resulting pitch.</td></tr>
+                            <tr><td>spin_dir</td><td>* Deprecated field from the old tracking system.</td></tr>
+                            <tr><td>spin_rate_deprecated</td><td>* Deprecated field from the old tracking system. Replaced by release_spin</td></tr>
+                            <tr><td>break_angle_deprecated</td><td>* Deprecated field from the old tracking system.</td></tr>
+                            <tr><td>break_length_deprecated</td><td>* Deprecated field from the old tracking system.</td></tr>
+                            <tr><td>zone</td><td>Zone location of the ball when it crosses the plate from the catcher's perspective.</td></tr>
+                            <tr><td>des</td><td>Plate appearance description from game day.</td></tr>
+                            <tr><td>game_type</td><td>Type of Game. E = Exhibition, S = Spring Training, R = Regular Season, F = Wild Card, D = Divisional Series, L = League Championship Series, W = World Series</td></tr>
+                            <tr><td>stand</td><td>Side of the plate batter is standing.</td></tr>
+                            <tr><td>p_throws</td><td>Hand pitcher throws with.</td></tr>
+                            <tr><td>home_team</td><td>Abbreviation of home team.</td></tr>
+                            <tr><td>away_team</td><td>Abbreviation of away team.</td></tr>
+                            <tr><td>type</td><td>Short hand of pitch result. B = ball, S = strike, X = in play.</td></tr>
+                            <tr><td>hit_location</td><td>Position of first fielder to touch the ball.</td></tr>
+                            <tr><td>bb_type</td><td>Batted ball type, ground_ball, line_drive, fly_ball, popup.</td></tr>
+                            <tr><td>balls</td><td>Pre-pitch number of balls in count.</td></tr>
+                            <tr><td>strikes</td><td>Pre-pitch number of strikes in count.</td></tr>
+                            <tr><td>game_year</td><td>Year game took place.</td></tr>
+                            <tr><td>pfx_x</td><td>Horizontal movement in feet from the catcher's perspective.</td></tr>
+                            <tr><td>pfx_z</td><td>Vertical movement in feet from the catcher's perpsective.</td></tr>
+                            <tr><td>plate_x</td><td>Horizontal position of the ball when it crosses home plate from the catcher's perspective.</td></tr>
+                            <tr><td>plate_z</td><td>Vertical position of the ball when it crosses home plate from the catcher's perspective.</td></tr>
+                            <tr><td>on_3b</td><td>Pre-pitch MLB Player Id of Runner on 3B.</td></tr>
+                            <tr><td>on_2b</td><td>Pre-pitch MLB Player Id of Runner on 2B.</td></tr>
+                            <tr><td>on_1b</td><td>Pre-pitch MLB Player Id of Runner on 1B.</td></tr>
+                            <tr><td>outs_when_up</td><td>Pre-pitch number of outs.</td></tr>
+                            <tr><td>inning</td><td>Pre-pitch inning number.</td></tr>
+                            <tr><td>inning_topbot</td><td>Pre-pitch top or bottom of inning.</td></tr>
+                            <tr><td>hc_x</td><td>Hit coordinate X of batted ball.</td></tr>
+                            <tr><td>hc_y</td><td>Hit coordinate Y of batted ball.</td></tr>
+                            <tr><td>tfs_deprecated</td><td>* Deprecated field from old tracking system.</td></tr>
+                            <tr><td>tfs_zulu_deprecated</td><td>* Deprecated field from old tracking system.</td></tr>
+                            <tr><td>fielder_2</td><td>Pre-pitch MLB Player Id of Catcher.</td></tr>
+                            <tr><td>umpire</td><td>* Deprecated field from old tracking system.</td></tr>
+                            <tr><td>sv_id</td><td>Non-unique Id of play event per game.</td></tr>
+                            <tr><td>vx0</td><td>The velocity of the pitch, in feet per second, in x-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>vy0</td><td>The velocity of the pitch, in feet per second, in y-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>vz0</td><td>The velocity of the pitch, in feet per second, in z-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>ax</td><td>The acceleration of the pitch, in feet per second per second, in x-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>ay</td><td>The acceleration of the pitch, in feet per second per second, in y-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>az</td><td>The acceleration of the pitch, in feet per second per second, in z-dimension, determined at y=50 feet.</td></tr>
+                            <tr><td>sz_top</td><td>Top of the batter's strike zone set by the operator when the ball is halfway to the plate.</td></tr>
+                            <tr><td>sz_bot</td><td>Bottom of the batter's strike zone set by the operator when the ball is halfway to the plate.</td></tr>
+                            <tr><td>hit_distance</td><td>Projected hit distance of the batted ball.</td></tr>
+                            <tr><td>launch_speed</td><td>Exit velocity of the batted ball as tracked by Statcast. For the limited subset of batted balls not tracked directly, estimates are included based on the process described here.</td></tr>
+                            <tr><td>launch_angle</td><td>Launch angle of the batted ball as tracked by Statcast. For the limited subset of batted balls not tracked directly, estimates are included based on the process described here.</td></tr>
+                            <tr><td>effective_speed</td><td>Derived speed based on the the extension of the pitcher's release.</td></tr>
+                            <tr><td>release_spin</td><td>Spin rate of pitch tracked by Statcast.</td></tr>
+                            <tr><td>release_extension</td><td>Release extension of pitch in feet as tracked by Statcast.</td></tr>
+                            <tr><td>game_pk</td><td>Unique Id for Game.</td></tr>
+                            <tr><td>pitcher</td><td>MLB Player Id tied to the play event.</td></tr>
+                            <tr><td>fielder_2</td><td>MLB Player Id for catcher.</td></tr>
+                            <tr><td>fielder_3</td><td>MLB Player Id for 1B.</td></tr>
+                            <tr><td>fielder_4</td><td>MLB Player Id for 2B.</td></tr>
+                            <tr><td>fielder_5</td><td>MLB Player Id for 3B.</td></tr>
+                            <tr><td>fielder_6</td><td>MLB Player Id for SS.</td></tr>
+                            <tr><td>fielder_7</td><td>MLB Player Id for LF.</td></tr>
+                            <tr><td>fielder_8</td><td>MLB Player Id for CF.</td></tr>
+                            <tr><td>fielder_9</td><td>MLB Player Id for RF.</td></tr>
+                            <tr><td>release_pos_y</td><td>Release position of pitch measured in feet from the catcher's perspective.</td></tr>
+                            <tr><td>estimated_ba_using_speedangle</td><td>Estimated Batting Avg based on launch angle and exit velocity.</td></tr>
+                            <tr><td>estimated_woba_using_speedangle</td><td>Estimated wOBA based on launch angle and exit velocity.</td></tr>
+                            <tr><td>woba_value</td><td>wOBA value based on result of play.</td></tr>
+                            <tr><td>woba_denom</td><td>wOBA denominator based on result of play.</td></tr>
+                            <tr><td>babip_value</td><td>BABIP value based on result of play.</td></tr>
+                            <tr><td>iso_value</td><td>ISO value based on result of play.</td></tr>
+                            <tr><td>launch_speed_angle</td><td>Launch speed/angle zone based on launch angle and exit velocity. 1: Weak 2: Topped 3: Under 4: Flare/Burner 5: Solid Contact 6: Barrel</td></tr>
+                            <tr><td>at_bat_number</td><td>Plate appearance number of the game.</td></tr>
+                            <tr><td>pitch_number</td><td>Total pitch number of the plate appearance.</td></tr>
+                            <tr><td>pitch_name</td><td>The name of the pitch derived from the Statcast Data.</td></tr>
+                            <tr><td>home_score</td><td>Pre-pitch home score</td></tr>
+                            <tr><td>away_score</td><td>Pre-pitch away score</td></tr>
+                            <tr><td>bat_score</td><td>Pre-pitch bat team score</td></tr>
+                            <tr><td>fld_score</td><td>Pre-pitch field team score</td></tr>
+                            <tr><td>post_home_score</td><td>Post-pitch home score</td></tr>
+                            <tr><td>post_away_score</td><td>Post-pitch away score</td></tr>
+                            <tr><td>post_bat_score</td><td>Post-pitch bat team score</td></tr>
+                            <tr><td>if_fielding_alignment</td><td>Infield fielding alignment at the time of the pitch.</td></tr>
+                            <tr><td>of_fielding_alignment</td><td>Outfield fielding alignment at the time of the pitch.</td></tr>
+                            <tr><td>spin_axis</td><td>The Spin Axis in the 2D X-Z plane in degrees from 0 to 360, such that 180 represents a pure backspin fastball and 0 degrees represents a pure topspin (12-6) curveball</td></tr>
+                            <tr><td>delta_home_win_exp</td><td>The change in Win Expectancy before the Plate Appearance and after the Plate Appearance</td></tr>
+                            <tr><td>delta_run_exp</td><td>The change in Run Expectancy before the Pitch and after the Pitch</td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    </details>
+                </div>
+                <div class="project-section" id="data-cleaning">
+                    <h2>2. Data Cleaning</h2>
+                    <h3 id="factors">2-1. Factors influencing a home run</h3>
+                    <p>Since home run attempt includes both success and failure, we decided to count two simple factors:</p>
+                    <ol>
+                        <li><b>Bat speed</b> : how fast a batter swings their bat</li>
+                        <li><b>Swing length</b> : distance captured from start of a swing to an impact point</li>
+                    </ol>
+                    <h3 id="threshold">2-2. Setting optimal threshold</h3>
+                    <p>Since we have set the standards of a home run attempt, we have to decide the threshold for each of them to see from what point should we consider that the batter tried to hit a home run. For this, we took the following steps:</p>
+                    <ol>
+                        <li>Create an <b>ROC curve</b> comparing home runs against bat speed and swing length</li>
+                        <li>Calculate <b>Youden index</b> using sensitivity and specificity at all possible threshold values, where \( J = \max\{\text{sensitivity}(t) + \text{specificity}(t) - 1\} \)</li>
+                    </ol>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-youden-index.png" alt="ROC curve and Youden index" />
+                    </div>
+                    <p>With the above steps, we got the optimal threshold of 72.65 mph for bat speed and 7.05 ft for swing length to create our response variable of <code>home_run_attempt</code>. The graph below shows the distribution of home runs for bat speed and swing length along with their optimal thresholds.</p>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-distributions.png" alt="Distribution of Bat Speed and Swing Length by Home Run" />
+                    </div>
+                    <h3 id="variable-selection">2-3. Variable Selection Method</h3>
+                    <p>In terms of variable selection, we first started off by picking 30 potentially significant variables to predict home run attempts, including game situation (inning, outs), pitch characteristics (release position, velocity), and batter/pitcher attributes.</p>
+                    <p>Then, we have tried multiple approaches for variable selection method:</p>
+                    <ol>
+                        <li><b>Forward stepwise selection</b> using BIC</li>
+                        <li><b>Backward stepwise selection</b> using BIC</li>
+                        <li><b>Recursive Feature Elimination</b> (RFE) with 5-fold CV</li>
+                    </ol>
+                    <p>The table below is the result:</p>
+                    <div class="table-container">
+                    <table class="data-table">
+                    <thead>
+                    <tr><th>Variable Selection Method</th><th>Number of features</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Forward Selection</td><td>9</td></tr>
+                    <tr><td>Backward Selection</td><td>9</td></tr>
+                    <tr><td>RFE</td><td>2</td></tr>
+                    </tbody>
+                    </table>
+                    </div>
+                    <p>Forward and backward stepwise selection method provided the same number of features, but we decided to use backward selection, since it had a lower BIC. Even though RFE would be a very great approach for a variable selection, it gave too few variables this time, so we decided to not use this method.</p>
+                    <p>Below are the list of final selected features:</p>
+                    <ul>
+                        <li>balls</li>
+                        <li>strikes</li>
+                        <li>at_bat_number</li>
+                        <li>release_pos_z</li>
+                        <li>vz0</li>
+                        <li>az</li>
+                        <li>effective_speed</li>
+                        <li>stand</li>
+                    </ul>
+                </div>
+                <div class="project-section" id="modeling">
+                    <h2>3. Data Modeling</h2>
+                    <h3 id="model-fitting">3-1. Model Fitting</h3>
+                    <p>After cleaning the data, we have tried fitting various models to predict <code>home_run_attempt</code>:</p>
+                    <ol>
+                        <li><b>Logistic regression</b> : basic linear model</li>
+                        <li><b>GAM</b> : taking into account for non-linear relationship as well as interpretability</li>
+                        <li><b>Mixed Effects Model</b> : taking into account for individual tendencies of batters and pitchers</li>
+                        <li><b>Random Forest</b> : general machine learning model</li>
+                    </ol>
+                    <p>We decided to choose our best model based on accuracy and the char below was the result:</p>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-model comparison.png" alt="Model accuracy comparison" />
+                    </div>
+                    <h3 id="best-model">3-2. Result of The Best Performing Model</h3>
+                    <p>Since <b>mixed effects model</b> was the best performing model, we decided to take a further look at its result to examine significant factors of home run attempts.</p>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-mixed effects model.png" alt="Mixed Effects Model output" />
+                    </div>
+                    <p>Result summary:</p>
+                    <ul>
+                        <li>The variance of <code>batter</code> is significantly higher than <code>pitcher</code>, suggesting that batting characteristics have more random variation than pitching characteristics</li>
+                        <li><code>balls</code> : higher ball counts <b>increase</b> the likelihood for batters to attempt home run</li>
+                        <li><code>strikes</code> : higher strike counts <b>decrease</b> the likelihood for batters to attempt home run</li>
+                        <li><code>at_bat_number</code> : more at bat number slightly <b>decreases</b> the likelihood</li>
+                        <li><code>release_pos_z</code> : higher release position of pitcher <b>decreases</b> the likelihood</li>
+                        <li><code>vz0</code> : higher pitch velocity in z-dimension <b>decreases</b> the likelihood</li>
+                        <li><code>az</code> : higher pitch acceleration in z-dimension <b>decreases</b> the likelihood</li>
+                        <li><code>effective_speed</code> : higher pitch speed <b>decreases</b> the likelihood</li>
+                        <li><code>standR</code> : right-handed batters are <b>more likely</b> to attempt home run</li>
+                    </ul>
+                </div>
+                <div class="project-section" id="results">
+                    <h2>4. Top 10 Batters with Highest Home Run Success Rate</h2>
+                    <p>The chart below has the list of ten batters with the highest home run success rate among those who are above 75% quantile range in the number of making home run attempts. This filter is set to show major batters who are most likely to play the whole game.</p>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-home run success rate.png" alt="Top 10 batters home run success rate" />
+                    </div>
+                    <p>After looking at this chart, another questions came up, which is: "Does higher bat speed and swing length lead to better home run success rate?" To answer the question, we have set the hypothesis as below:</p>
+                    <div class="hypothesis-box">
+                        <b>Hypothesis:</b> <b>Larger swing length and bat speed</b> will contribute to <b>higher home run success rate</b>
+                    </div>
+                    <div class="project-image-row">
+                        <img src="project images/mlb-swing length and bat speed.png" alt="Swing length and bat speed for top batters" />
+                        <img src="project images/mlb-home run rate vs avg bat speed and swing length.png" alt="Home run rate vs average bat speed and swing length" />
+                    </div>
+                    <p>Looking at the charts above, we can see that the bat speed and swing length does not actually seem to correlate as much to the home run success rate as we have expected. This might mean couple of things:</p>
+                    <ol>
+                        <li>There might be an optimal range to have a better successful home run rate than a "higher is better" kind of relationship.</li>
+                        <li>The timing and the point of contact might matter more significantly than just a bat speed and a swing length.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script.js"></script>
+</body>
+</html> 
