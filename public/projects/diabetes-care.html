@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racial Disparities in Diabetes Care - Austin Lee</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">Austin Lee</div>
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="../index.html#home">Home</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Project Detail Section -->
+    <section class="project-detail">
+        <div class="container">
+            <a href="../index.html#projects" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+            
+            <div class="project-header">
+                <h1>Racial Disparities in Diabetes Care</h1>
+                <div class="project-meta">
+                    <span><i class="fas fa-calendar"></i> 2024</span>
+                    <span><i class="fas fa-tag"></i> Healthcare Analytics</span>
+                    <span><i class="fas fa-file-alt"></i> <a href="https://www.researchsquare.com/article/rs-3901158/v1" target="_blank" class="paper-link">View Research Paper</a></span>
+                </div>
+            </div>
+
+            <div class="toc">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#overview">1. Overview</a>
+                        <ul>
+                            <li><a href="#background">1-1. Background</a></li>
+                            <li><a href="#research-questions">1-2. Research Questions</a></li>
+                            <li><a href="#hypotheses">1-3. Hypotheses</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#methods">2. Methods</a></li>
+                    <li><a href="#statistical-results">3. Statistical Results</a>
+                        <ul>
+                            <li><a href="#demography">3-1. Demography and Diabetes Prevalence</a></li>
+                            <li><a href="#ambulatory-visits">3-2. Analysis of Ambulatory Visits</a></li>
+                            <li><a href="#a1c-measures">3-3. Analysis of A1C Measures</a></li>
+                            <li><a href="#gfr-measurements">3-4. Analysis of GFR Measurements</a></li>
+                            <li><a href="#comorbidity-analysis">3-5. Comorbidity Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#study-results">4. Study Results</a></li>
+                </ul>
+            </div>
+
+            <div class="project-content">
+                <div id="overview" class="project-section">
+                    <h2>1. Overview</h2>
+                    
+                    <div id="background">
+                        <h3>1-1. Background</h3>
+                        <p>Health disparities between people with disabilities and those without are poorly understood and under-researched. Factors that impact healthcare outcomes for disabled individuals include socioeconomic and environmental influences on healthcare system accessibility and quality of care.</p>
+                        <p>Our study demonstrates disabilities like visual impairments intersect with race to influence the management of chronic conditions like diabetes. By examining disparities in the accessibility and quality of healthcare and subsequent health outcomes, this research illuminates the complex ways disability and race interact within healthcare systems.</p>
+                        <p>The study leverages data from the TriNetX Research Network, encompassing electronic medical records from approximately 115 million patients across 83 de-identified healthcare organizations.</p>
+                    </div>
+
+                    <h3 id="research-questions">1-2. Research Questions</h3>
+                    <ol>
+                        <li>Among patients with diabetes, are there <strong>significant differences</strong> in the prevalence of cardiopulmonary <strong>comorbidities</strong> between patients who are visually impaired versus those who are not?</li>
+                        <li>Are there <strong>racial disparities</strong> in the <strong>quality of diabetes-related care</strong> between those who are visually impaired <strong>not</strong> due to diabetes-related ophthalmic complications versus those who are not visually impaired?</li>
+                        <li>Are there <strong>racial disparities in health outcomes</strong> for persons with diabetes with a visual impairment diagnosis? How do these disparities compare to those with diabetes and no visual impairment diagnosis?</li>
+                    </ol>
+
+                    <h3 id="hypotheses">1-3. Hypotheses</h3>
+                    <div class="hypothesis-box">
+                        <p><strong>1️⃣</strong> Patients with <strong>visual impairment</strong> will have <strong>higher HbA1c</strong> and a <strong>higher rate of CKD</strong>(chronic kidney disease) <strong>regardless of race</strong>.</p>
+                    </div>
+                    <div class="hypothesis-box">
+                        <p><strong>2️⃣</strong> Patients with <strong>visual impairment</strong> will be <strong>less likely</strong> to have received the recommended <strong>standards of care</strong> for <strong>diabetes patients</strong>.</p>
+                    </div>
+                    <div class="hypothesis-box">
+                        <p><strong>3️⃣</strong> The disparities between those with visual impairment and those without these conditions, as identified in hypotheses 1 and 2, will be greater among racial minorities.</p>
+                    </div>
+                </div>
+
+                <div class="project-section">
+                    <h2 id="methods">2. Methods</h2>
+                    <ul>
+                        <li><strong>Study Design</strong>: Our study uses a <strong>cross-sectional design</strong> analyzing real-world electronic health record (EHR) data from the TriNetX Research Network. The data was collected on November 29, 2023</li>
+                        <li><strong>Patient Population</strong>: Our study focuses on patients aged <strong>45+</strong> who had <strong>healthcare visits</strong> <strong>between 2017-01-01 and 2018-12-31</strong> to avoid the confounding impact of the COVID-19 pandemic</li>
+                        <li><strong>Visual Impairment Classification</strong>: Visual impairment was determined using visual disability-related <strong>ICD-10 codes (VDRC)</strong>, categorized as None, Unqualified, Low Vision, and Blindness. Patients with diabetes-related ophthalmology complications were excluded</li>
+                        <li><strong>Inclusion Criteria</strong>: The study used different inclusion criteria for each research question</li>
+                        <li><strong>Outcome Variables</strong>:
+                            <ul>
+                                <li><strong>Comorbidities</strong>: Our study examined comorbidities related to chronic pulmonary conditions using the Charlson Comorbidity Index (CCI)</li>
+                                <li><strong>Standard of care</strong>: Having <strong>3+ ambulatory visits</strong> annually and receiving <strong>2+ A1C measurements</strong> within a year</li>
+                                <li><strong>Diabetes Outcomes</strong>: Identified indicators like the <strong>prevalence of CKD</strong> and the <strong>rate of uncontrolled diabetes</strong> (A1C > 9.0%)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Statistical Analysis</strong>: We used a <strong>risk ratio</strong> to evaluate the risk of CKD and uncontrolled diabetes. The differences in <strong>proportions test</strong> was used to understand how comorbidities vary within the population</li>
+                    </ul>
+                </div>
+
+                <div class="project-section">
+                    <h2 id="statistical-results">3. Statistical Results</h2>
+                    
+                    <h3 id="demography">3-1. Demography and Diabetes Prevalence</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Cohort</th>
+                                    <th>Race</th>
+                                    <th>Patient Count</th>
+                                    <th>Mean Age</th>
+                                    <th>% Female</th>
+                                    <th>% with Diabetes</th>
+                                    <th>% with Diabetes-Related Ophthalmic Complications</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="3">No VDRC</td>
+                                    <td>AA or Black</td>
+                                    <td>1,524,072</td>
+                                    <td>64</td>
+                                    <td>61%</td>
+                                    <td>31%</td>
+                                    <td>4%</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td>9,954,167</td>
+                                    <td>67</td>
+                                    <td>57%</td>
+                                    <td>20%</td>
+                                    <td>2%</td>
+                                </tr>
+                                <tr>
+                                    <td>Asian</td>
+                                    <td>456,630</td>
+                                    <td>65</td>
+                                    <td>61%</td>
+                                    <td>23%</td>
+                                    <td>3%</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">VDRC Present</td>
+                                    <td>AA or Black</td>
+                                    <td>22,768</td>
+                                    <td>68</td>
+                                    <td>55%</td>
+                                    <td>58%</td>
+                                    <td>23%</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td>105,287</td>
+                                    <td>72</td>
+                                    <td>54%</td>
+                                    <td>46%</td>
+                                    <td>12%</td>
+                                </tr>
+                                <tr>
+                                    <td>Asian</td>
+                                    <td>3,243</td>
+                                    <td>70</td>
+                                    <td>56%</td>
+                                    <td>47%</td>
+                                    <td>17%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="ambulatory-visits">3-2. Analysis of the proportion of patients with 3+ Ambulatory visits</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Race</th>
+                                    <th>(-) VDRC, %</th>
+                                    <th>(+) VDRC, %</th>
+                                    <th>Δ proportion (p-value)</th>
+                                    <th>CKD Risk Ratio (p-value)</th>
+                                    <th>Uncontrolled Diabetes Risk Ratio (p-value)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AA or Black</td>
+                                    <td>70.33%</td>
+                                    <td>81.15%</td>
+                                    <td>10.82% (<0.01)</td>
+                                    <td>1.786 (<0.01)</td>
+                                    <td>0.968 (0.5)</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td>71.84%</td>
+                                    <td>81.03%</td>
+                                    <td>9.19% (<0.01)</td>
+                                    <td>2.274 (<0.01)</td>
+                                    <td>0.843 (<0.01)</td>
+                                </tr>
+                                <tr>
+                                    <td>Asian</td>
+                                    <td>63.50%</td>
+                                    <td>75.22%</td>
+                                    <td>11.72% (<0.01)</td>
+                                    <td>1.284 (0.08)</td>
+                                    <td>0.847 (0.36)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="a1c-measures">3-3. Analysis of the proportion of patients with 2+ A1C measures</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Race</th>
+                                    <th>(-) VDRC, %</th>
+                                    <th>(+) VDRC, %</th>
+                                    <th>Δ proportion (p-value)</th>
+                                    <th>CKD Risk Ratio (p-value)</th>
+                                    <th>Uncontrolled Diabetes Risk Ratio (p-value)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AA or Black</td>
+                                    <td>27.66%</td>
+                                    <td>28.09%</td>
+                                    <td>0.43% (0.55)</td>
+                                    <td>1.807 (<0.01)</td>
+                                    <td>1.106 (0.08)</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td>30.39%</td>
+                                    <td>24.95%</td>
+                                    <td>5.44% (<0.01)</td>
+                                    <td>2.3 (<0.01)</td>
+                                    <td>1.108 (0.01)</td>
+                                </tr>
+                                <tr>
+                                    <td>Asian</td>
+                                    <td>32.42%</td>
+                                    <td>28.90%</td>
+                                    <td>3.52% (0.09)</td>
+                                    <td>1.38 (0.02)</td>
+                                    <td>0.909 (0.67)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="gfr-measurements">3-4. Analysis of the proportion of patients with 1+ GFR measurements</h3>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Race</th>
+                                    <th>(-) VDRC, %</th>
+                                    <th>(+) VDRC, %</th>
+                                    <th>Δ proportion (p-value)</th>
+                                    <th>CKD Risk Ratio (p-value)</th>
+                                    <th>Uncontrolled Diabetes Risk Ratio (p-value)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AA or Black</td>
+                                    <td>60.20%</td>
+                                    <td>64.82%</td>
+                                    <td>4.62% (<0.01)</td>
+                                    <td>1.751 (<0.01)</td>
+                                    <td>0.979 (0.67)</td>
+                                </tr>
+                                <tr>
+                                    <td>White</td>
+                                    <td>53.07%</td>
+                                    <td>51.49%</td>
+                                    <td>1.58% (<0.01)</td>
+                                    <td>2.203 (<0.01)</td>
+                                    <td>0.9 (<0.01)</td>
+                                </tr>
+                                <tr>
+                                    <td>Asian</td>
+                                    <td>57.41%</td>
+                                    <td>58.53%</td>
+                                    <td>1.12% (0.63)</td>
+                                    <td>1.242 (0.04)</td>
+                                    <td>0.989 (0.95)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="comorbidity-analysis">3-5. Comorbidity Analysis</h3>
+                    <p>This section presents a comorbidity analysis by race, visualizing the prevalence and distribution of key comorbidities among patients with diabetes. The charts below show the comorbidity profiles for African American/Black, White, and Asian populations in the study cohort.</p>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="../project-images/diabetes-comorbidity-aa-or-black.png" alt="Comorbidity Analysis - AA or Black" />
+                            <figcaption><strong>Figure 1.a.</strong> AA or Black Chronic Pulmonary Disease Prevalence Comparison</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../project-images/diabetes-comorbidity-white.png" alt="Comorbidity Analysis - White" />
+                            <figcaption><strong>Figure 1.b.</strong> White Chronic Pulmonary Disease Prevalence Comparison</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="../project-images/diabetes-comorbidity-asian.png" alt="Comorbidity Analysis - Asian" />
+                            <figcaption><strong>Figure 1.c.</strong> Asian Chronic Pulmonary Disease Prevalence Comparison</figcaption>
+                        </figure>
+                    </div>
+                    <p><strong>Result:</strong></p>
+                    <ul>
+                        <li>We found a significantly <strong>higher burden</strong> of chronic pulmonary comorbidities among individuals with visual impairment across all racial groups</li>
+                        <li>In all racial cohorts, patients <strong>with a visual impairment</strong> had a <strong>higher prevalence of asthma</strong>
+                            <ul>
+                                <li>In the White cohort, 17% of those with a visual impairment had asthma, compared to 10% of those without</li>
+                                <li>In the African American population, 20% of those with a visual impairment had asthma, versus 13% of those without</li>
+                                <li>In the Asian cohort, the figures were 14% with visual impairment and 9% without</li>
+                            </ul>
+                        </li>
+                        <li>This pattern of higher comorbidity burden in patients with visual impairment was also consistent across other diagnoses (i.e., chronic obstructive pulmonary disease, bronchitis)</li>
+                    </ul>
+                </div>
+
+                <div class="project-section">
+                    <h2 id="study-results">4. Study Results</h2>
+                    
+                    <div class="hypothesis-box">
+                        <h3>Hypothesis 1</h3>
+                        <p>Patients with <strong>visual impairment</strong> will have <strong>higher HbA1c</strong> and a <strong>higher rate of CKD</strong>(chronic kidney disease) <strong>regardless of race</strong>.</p>
+                        <p><strong>Result</strong>: There was a <strong>mixed result</strong> regarding HbA1c levels, but had a <strong>consistent result</strong> for CKD where individuals with a visual impairment had a higher risk of CKD across all racial groups.</p>
+                    </div>
+
+                    <div class="hypothesis-box">
+                        <h3>Hypothesis 2</h3>
+                        <p>Patients with <strong>visual impairment</strong> will be <strong>less likely</strong> to have received the recommended <strong>standards of care</strong> for <strong>diabetes patients</strong>.</p>
+                        <p><strong>Result</strong>: Individuals with visual impairment had more ambulatory visits, but white people with visual impairment were less likely to have recommended HbA1c testing and the GFR had a mixed result, meaning that the study <strong>partially supports</strong> the hypothesis that people with visual impairment are less likely to receive recommended standards of care, and the <strong>differences in access depend</strong> on the <strong>type of care</strong> and the <strong>race of the patient</strong>.</p>
+                    </div>
+
+                    <div class="hypothesis-box">
+                        <h3>Hypothesis 3</h3>
+                        <p>The disparities between those with visual impairment and those without these conditions, as identified in hypotheses 1 and 2, will be greater among racial minorities.</p>
+                        <p><strong>Result</strong>: While disparities exist, they do not consistently show that racial minorities have <em>greater</em> disparities compared to the White population, suggesting that the study does indicate that there is an <strong>interaction between race and visual impairment</strong> in determining the quality of care and health outcomes, but in more complex way.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script.js"></script>
+</body>
+</html>
