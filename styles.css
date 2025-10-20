@@ -314,6 +314,31 @@ body {
     color: #f0f0f0;
 }
 
+.project-card.spotify-wrapped {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1465');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.project-card.spotify-wrapped h3,
+.project-card.spotify-wrapped .project-description,
+.project-card.spotify-wrapped .tag {
+    color: #fff;
+}
+
+.project-card.spotify-wrapped .tag {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.project-card.spotify-wrapped .project-link {
+    color: #fff;
+}
+
+.project-card.spotify-wrapped .project-link:hover {
+    color: #f0f0f0;
+}
+
 .project-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.10);

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GK4H1HF9K6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GK4H1HF9K6');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Time Spotify Wrapped - Austin Lee</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">Austin Lee</div>
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="../index.html#home">Home</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#experience">Experience</a></li>
+            <li><a href="../index.html#education">Education</a></li>
+            <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Project Detail Section -->
+    <section class="project-detail">
+        <div class="container">
+            <a href="../index.html#projects" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+            
+            <div class="project-header">
+                <h1>All-Time Spotify Wrapped</h1>
+                <div class="project-meta">
+                    <span><i class="fas fa-calendar"></i> 2025</span>
+                    <span><i class="fas fa-tag"></i> Data Engineering</span>
+                    <span><i class="fas fa-music"></i> Music Analytics</span>
+                </div>
+            </div>
+
+            <div class="toc">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#overview">1. Overview</a>
+                        <ul>
+                            <li><a href="#objective">1-1. Objective</a></li>
+                            <li><a href="#key-features">1-2. Key Features</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#architecture">2. Architecture</a>
+                        <ul>
+                            <li><a href="#tools-technologies">2-1. Tools & Technologies</a></li>
+                            <li><a href="#data-flow">2-2. Data Flow</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#data-schema">3. Data Schema</a></li>
+                    <li><a href="#dashboard-insights">4. Dashboard & Insights</a></li>
+                    <li><a href="#key-files">5. Key Implementation Files</a></li>
+                </ul>
+            </div>
+
+            <div class="project-content">
+                <div id="overview" class="project-section">
+                    <h2>1. Overview</h2>
+                    
+                    <p>A comprehensive data pipeline that extracts, transforms, and visualizes a user's complete Spotify listening history using modern data engineering tools and practices. This project recreates "Spotify Wrapped" that can be viewed at any time of year with richer insights than the official version.</p>
+
+                    <div class="hypothesis-box">
+                        <p><strong>Reference:</strong> This project is built upon concepts from <a href="https://github.com/calbergs/spotify-api.git" target="_blank" class="paper-link">spotify-api</a> by calbergs and is developed further into incorporating DuckDB for OLAP database as well as OpenLineage and Marquez for complete column level data lineage.</p>
+                    </div>
+
+                    <div id="objective">
+                        <h3>1-1. Objective</h3>
+                        <p>Deep dive into my complete song listening history to analyze top artists, tracks, genres, listening patterns, and audio feature preferences. This project provides insights into personal music consumption patterns with real-time tracking and historical analysis capabilities.</p>
+                    </div>
+
+                    <div id="key-features">
+                        <h3>1-2. Key Features</h3>
+                        <ul>
+                            <li><strong>✅ Real-time Tracking:</strong> Hourly API calls during active hours (0-6, 14-23 UTC)</li>
+                            <li><strong>✅ Historical Analysis:</strong> Integrates 2+ years of extended streaming history (89K+ plays)</li>
+                            <li><strong>✅ Playlist Trend Discovery:</strong> Tracks which playlists contain my favorite songs</li>
+                            <li><strong>✅ Data Lineage:</strong> Complete column-level lineage tracking with OpenLineage + Marquez</li>
+                            <li><strong>✅ Cost Efficient:</strong> 100% open-source tools, hosted locally</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="architecture" class="project-section">
+                    <h2>2. Architecture</h2>
+                    
+                    <div id="tools-technologies">
+                        <h3>2-1. Tools & Technologies</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Technology</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Containerization</strong></td>
+                                        <td><a href="https://www.docker.com" target="_blank">Docker</a>, <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Orchestration</strong></td>
+                                        <td><a href="https://airflow.apache.org" target="_blank">Apache Airflow</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Storage</strong></td>
+                                        <td><a href="https://duckdb.org" target="_blank">DuckDB</a> (analytical), <a href="https://www.postgresql.org" target="_blank">PostgreSQL</a> (Metabase)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Transformation</strong></td>
+                                        <td><a href="https://www.getdbt.com" target="_blank">dbt Core</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Visualization</strong></td>
+                                        <td><a href="https://www.metabase.com" target="_blank">Metabase</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Lineage</strong></td>
+                                        <td><a href="https://openlineage.io" target="_blank">OpenLineage</a>, <a href="https://marquezproject.ai" target="_blank">Marquez</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Language</strong></td>
+                                        <td><a href="https://www.python.org" target="_blank">Python 3.10</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>API</strong></td>
+                                        <td><a href="https://developer.spotify.com/documentation/web-api" target="_blank">Spotify Web API</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="data-flow">
+                        <h3>2-2. Data Flow</h3>
+                        
+                        <h4>1️⃣ Extraction</h4>
+                        <ul>
+                            <li><strong>API Extraction</strong> (<code>extract_spotify_data</code>):
+                                <ul>
+                                    <li>Calls Spotify API for recently played tracks (50 most recent)</li>
+                                    <li>Fetches audio features, artist details, and playlist information</li>
+                                    <li>Saves responses as CSV files with timestamp</li>
+                                    <li>Runs hourly during active hours (0-6, 14-23 UTC)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Extended History</strong> (<code>load_extended_history</code>):
+                                <ul>
+                                    <li>Requested Extended Streaming History data from <a href="https://www.spotify.com/us/account/privacy/" target="_blank">Spotify</a></li>
+                                    <li>One-time load of historical streaming data (2022-2025)</li>
+                                    <li>Contains 230,000+ plays with rich context (platform, country, shuffle, skip reasons)</li>
+                                    <li><strong>Smart Skip:</strong> Checks if data exists and skips reload to save full load time (~40s)</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>2️⃣ Loading</h4>
+                        <ul>
+                            <li><strong>DuckDB Loader</strong> (<code>load_to_duckdb</code>):
+                                <ul>
+                                    <li>Creates/updates raw tables in DuckDB</li>
+                                    <li>Tables: <code>raw_spotify_tracks</code>, <code>raw_spotify_audio_features</code>, <code>raw_spotify_artists</code>, <code>raw_spotify_playlists</code>, <code>raw_spotify_playlist_tracks</code>, <code>raw_spotify_extended_history</code></li>
+                                    <li>Uses upsert logic to handle duplicates</li>
+                                    <li>Parallel execution with extended history load</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>3️⃣ Transformation (dbt)</h4>
+                        <ul>
+                            <li><strong>Staging Layer:</strong>
+                                <ul>
+                                    <li><code>stg_spotify_tracks</code> - Cleans and deduplicates API track data</li>
+                                    <li><code>stg_spotify_extended_history</code> - Parses extended history with track ID extraction</li>
+                                    <li><code>stg_spotify_audio_features</code> - Normalizes audio characteristics</li>
+                                    <li><code>stg_spotify_artists</code> - Artist metadata with SCD Type 1</li>
+                                    <li><code>stg_spotify_playlists</code> - Playlist information</li>
+                                    <li><code>stg_spotify_playlist_tracks</code> - Track-playlist relationships</li>
+                                </ul>
+                            </li>
+                            <li><strong>Marts Layer:</strong>
+                                <ul>
+                                    <li><code>dim_tracks</code> - Track dimension (combines API + extended history)</li>
+                                    <li><code>dim_artists</code> - Artist dimension with play counts and listening time</li>
+                                    <li><code>dim_albums</code> - Album dimension with aggregated stats</li>
+                                    <li><code>dim_playlists</code> - Playlist dimension with track counts</li>
+                                    <li><code>fct_listening_history</code> - <strong>Core fact table</strong> with extended history context, audio features, and data source tracking</li>
+                                </ul>
+                            </li>
+                            <li><strong>Analytics Layer:</strong>
+                                <ul>
+                                    <li><code>top_tracks_daily</code> - Daily top track rankings</li>
+                                    <li><code>top_artists_daily</code> - Daily artist popularity</li>
+                                    <li><code>listening_patterns_hourly</code> - Time-based listening behavior (CST)</li>
+                                    <li><code>audio_features_analysis</code> - Mood and audio preference trends</li>
+                                    <li><code>playlist_analysis</code> - Playlist engagement and mood analysis</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>4️⃣ Lineage Tracking</h4>
+                        <ul>
+                            <li><strong>OpenLineage Integration</strong> (<code>emit_lineage</code>):
+                                <ul>
+                                    <li>Emits column-level lineage for all 16 dbt models</li>
+                                    <li>Tracks transformations from raw sources through staging to analytics</li>
+                                    <li>Shows exactly which raw columns feed into each analytical metric</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>5️⃣ Data Sync</h4>
+                        <ul>
+                            <li><strong>PostgreSQL Sync</strong> (<code>sync_to_postgres</code>):
+                                <ul>
+                                    <li>Copies analytical tables from DuckDB to PostgreSQL</li>
+                                    <li>Metabase connects to PostgreSQL for visualization</li>
+                                    <li>Automatically recreates tables to pick up schema changes</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>6️⃣ Quality & Documentation</h4>
+                        <ul>
+                            <li><strong>dbt Tests:</strong> Validates data quality (uniqueness, not null, relationships)</li>
+                            <li><strong>dbt Docs:</strong> Auto-generated documentation with data lineage graph</li>
+                            <li><strong>Slack Alerts:</strong> Automatic notifications on pipeline failures/retries</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="data-schema" class="project-section">
+                    <h2>3. Data Schema</h2>
+                    
+                    <h3>Key Metrics Available</h3>
+                    <ul>
+                        <li><strong>Listening History Facts:</strong>
+                            <ul>
+                                <li>Play timestamps (UTC & CST)</li>
+                                <li>Track, artist, album details</li>
+                                <li>Audio features (danceability: 0-1, energy: 0-1, valence: 0-1, tempo: BPM)*</li>
+                                <li>Playlist associations (up to 5 playlists per track)</li>
+                                <li>Extended context (platform, country, shuffle, skip reasons)</li>
+                                <li>Data source provenance (API, historical)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Dimensions:</strong>
+                            <ul>
+                                <li>4,000+ unique tracks</li>
+                                <li>Hundreds of artists with genre classifications</li>
+                                <li>User playlists with track counts</li>
+                            </ul>
+                        </li>
+                        <li><strong>Time Intelligence:</strong>
+                            <ul>
+                                <li>Hourly patterns</li>
+                                <li>Daily, weekly, monthly aggregations</li>
+                                <li>First/last play timestamps</li>
+                                <li>Days active metrics</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="hypothesis-box">
+                        <p><strong>*Note:</strong> Audio features are not available due to it only being available for Spotify Premium users</p>
+                    </div>
+                </div>
+
+                <div id="dashboard-insights" class="project-section">
+                    <h2>4. Dashboard & Insights</h2>
+                    
+                    <h3>Metabase Dashboard</h3>
+                    <p>Below are visualizations from the Metabase dashboard showcasing comprehensive Spotify listening analytics:</p>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="project images/Metabase1.png" alt="Metabase Dashboard 1" />
+                            <figcaption><strong>Figure 1.</strong> Main Analytics Dashboard</figcaption>
+                        </figure>
+                    </div>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="project images/Metabase2.png" alt="Metabase Dashboard 2" />
+                            <figcaption><strong>Figure 2.</strong> Listening Patterns Analysis</figcaption>
+                        </figure>
+                    </div>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="project images/Metabase3.png" alt="Metabase Dashboard 3" />
+                            <figcaption><strong>Figure 3.</strong> Playlist Trend Insights</figcaption>
+                        </figure>
+                    </div>
+
+                    <h3>dbt Documentation</h3>
+                    <ul>
+                        <li><strong>Features:</strong>
+                            <ul>
+                                <li>Interactive data lineage graph</li>
+                                <li>Column-level documentation</li>
+                                <li>Model dependencies</li>
+                                <li>Test results</li>
+                                <li>Source freshness</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Marquez Lineage</h3>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="project images/Marquez Lineage.png" alt="Marquez Data Lineage" />
+                            <figcaption><strong>Figure 4.</strong> OpenLineage Data Lineage Visualization</figcaption>
+                        </figure>
+                    </div>
+                    <ul>
+                        <li><strong>Features:</strong>
+                            <ul>
+                                <li>Complete data lineage from raw to analytics</li>
+                                <li>Column-level transformations</li>
+                                <li>Job run history</li>
+                                <li>Dataset metadata</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Airflow UI</h3>
+                    <ul>
+                        <li><strong>Features:</strong>
+                            <ul>
+                                <li>DAG monitoring and triggering</li>
+                                <li>Task logs and status</li>
+                                <li>Execution history</li>
+                                <li>Manual task reruns</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Slack Notifications</h3>
+                    <div class="project-image-row">
+                        <figure>
+                            <img src="project images/Slack Notification.png" alt="Slack Notification" />
+                            <figcaption><strong>Figure 5.</strong> Automated Pipeline Notifications</figcaption>
+                        </figure>
+                    </div>
+                    <p>The pipeline automatically sends Slack alerts for:</p>
+                    <ul>
+                        <li>❌ Task failures (after all retries exhausted)</li>
+                        <li>🔄 Task retries (immediate notification)</li>
+                        <li>✅ Success after retry</li>
+                    </ul>
+                </div>
+
+                <div id="key-files" class="project-section">
+                    <h4>5. Key Implementation Files</h4>
+                    
+                    <h4><code>dags/spotify_dag.py</code></h4>
+                    <ul>
+                        <li>Defines the complete pipeline workflow</li>
+                        <li>Parallel task execution where possible</li>
+                        <li>Slack alert callbacks on failures/retries</li>
+                        <li>Scheduled to run hourly during active hours</li>
+                    </ul>
+
+                    <h4><code>scripts/spotify_extractor.py</code></h4>
+                    <ul>
+                        <li>OAuth token management with auto-refresh</li>
+                        <li>Fetches recently played tracks, audio features, artists, playlists</li>
+                        <li>Saves timestamped CSV files as replayable source</li>
+                        <li>Handles API rate limits and errors</li>
+                    </ul>
+
+                    <h4><code>scripts/load_extended_history.py</code></h4>
+                    <ul>
+                        <li>One-time loader for historical streaming data</li>
+                        <li>Filters music tracks from podcasts/audiobooks</li>
+                        <li>Smart skip logic (checks if data exists)</li>
+                        <li>Parses track URIs to extract IDs</li>
+                    </ul>
+
+                    <h4><code>dbt_project/models/marts/fct_listening_history.sql</code></h4>
+                    <ul>
+                        <li>Core fact table combining API + extended history</li>
+                        <li>Separate columns for up to 5 playlists per track</li>
+                        <li>CST timezone conversion for local time analysis</li>
+                        <li>Rich context: platform, country, shuffle, skip reasons</li>
+                    </ul>
+
+                    <h4><code>scripts/emit_lineage.py</code></h4>
+                    <ul>
+                        <li>Emits OpenLineage events for all 16 dbt models</li>
+                        <li>Column-level lineage from raw sources to analytics</li>
+                        <li>Tracks transformations and data flow</li>
+                        <li>Integrates with Marquez for visualization</li>
+                    </ul>
+
+                    <div class="hypothesis-box">
+                        <h3>Acknowledgments</h3>
+                        <ul>
+                            <li>calbergs for the basic guideline of the project</li>
+                            <li>Spotify for providing comprehensive Web API</li>
+                            <li>Open-source communities behind Airflow, dbt, DuckDB, OpenLineage, and Marquez</li>
+                            <li>Inspired by Spotify Wrapped</li>
+                        </ul>
+                    </div>
+
+                    <div class="hypothesis-box">
+                        <h3>📝 License</h3>
+                        <p>This is a personal project for educational and analytical purposes. Spotify API usage complies with <a href="https://developer.spotify.com/terms" target="_blank" class="paper-link">Spotify's Developer Terms</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script.js"></script>
+</body>
+</html>
