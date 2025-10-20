@@ -294,19 +294,16 @@
                     <div class="project-image-row">
                         <figure>
                             <img src="project images/Metabase1.png" alt="Metabase Dashboard 1" />
-                            <figcaption><strong>Figure 1.</strong> Main Analytics Dashboard</figcaption>
                         </figure>
                     </div>
                     <div class="project-image-row">
                         <figure>
                             <img src="project images/Metabase2.png" alt="Metabase Dashboard 2" />
-                            <figcaption><strong>Figure 2.</strong> Listening Patterns Analysis</figcaption>
                         </figure>
                     </div>
                     <div class="project-image-row">
                         <figure>
                             <img src="project images/Metabase3.png" alt="Metabase Dashboard 3" />
-                            <figcaption><strong>Figure 3.</strong> Playlist Trend Insights</figcaption>
                         </figure>
                     </div>
 
@@ -327,7 +324,6 @@
                     <div class="project-image-row">
                         <figure>
                             <img src="project images/Marquez Lineage.png" alt="Marquez Data Lineage" />
-                            <figcaption><strong>Figure 4.</strong> OpenLineage Data Lineage Visualization</figcaption>
                         </figure>
                     </div>
                     <ul>
@@ -369,9 +365,9 @@
                 </div>
 
                 <div id="key-files" class="project-section">
-                    <h4>5. Key Implementation Files</h4>
+                    <h2>5. Key Implementation Files</h2>
                     
-                    <h4><code>dags/spotify_dag.py</code></h4>
+                    <h3><code>dags/spotify_dag.py</code></h3>
                     <ul>
                         <li>Defines the complete pipeline workflow</li>
                         <li>Parallel task execution where possible</li>
@@ -379,7 +375,7 @@
                         <li>Scheduled to run hourly during active hours</li>
                     </ul>
 
-                    <h4><code>scripts/spotify_extractor.py</code></h4>
+                    <h3><code>scripts/spotify_extractor.py</code></h3>
                     <ul>
                         <li>OAuth token management with auto-refresh</li>
                         <li>Fetches recently played tracks, audio features, artists, playlists</li>
@@ -387,7 +383,7 @@
                         <li>Handles API rate limits and errors</li>
                     </ul>
 
-                    <h4><code>scripts/load_extended_history.py</code></h4>
+                    <h3><code>scripts/load_extended_history.py</code></h3>
                     <ul>
                         <li>One-time loader for historical streaming data</li>
                         <li>Filters music tracks from podcasts/audiobooks</li>
@@ -395,7 +391,7 @@
                         <li>Parses track URIs to extract IDs</li>
                     </ul>
 
-                    <h4><code>dbt_project/models/marts/fct_listening_history.sql</code></h4>
+                    <h3><code>dbt_project/models/marts/fct_listening_history.sql</code></h3>
                     <ul>
                         <li>Core fact table combining API + extended history</li>
                         <li>Separate columns for up to 5 playlists per track</li>
@@ -403,7 +399,7 @@
                         <li>Rich context: platform, country, shuffle, skip reasons</li>
                     </ul>
 
-                    <h4><code>scripts/emit_lineage.py</code></h4>
+                    <h3><code>scripts/emit_lineage.py</code></h3>
                     <ul>
                         <li>Emits OpenLineage events for all 16 dbt models</li>
                         <li>Column-level lineage from raw sources to analytics</li>
