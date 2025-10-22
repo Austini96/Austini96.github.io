@@ -76,7 +76,7 @@
                 <div id="overview" class="project-section">
                     <h2>1. Overview</h2>
                     
-                    <p>All-Time Spotify Wrapped project aims to create a comprehensive data pipeline that extracts, transforms, and visualizes a user's complete Spotify listening history using modern data engineering tools and practices. This project recreates <strong>Spotify Wrapped</strong> that can be viewed at any time of year with richer insights than the official version.</p>
+                    <p>All-Time Spotify Wrapped project aims to create a comprehensive data pipeline that extracts, transforms, and visualizes my complete Spotify listening history using modern data engineering tools and practices. This project recreates <strong>Spotify Wrapped</strong> that can be viewed at any time of year with richer insights than the official version.</p>
 
                     <div class="hypothesis-box">
                         <p><strong>Reference:</strong> This project is built upon concepts from <a href="https://github.com/calbergs/spotify-api.git" target="_blank" class="paper-link">spotify-api</a> by calbergs and is developed further into incorporating DuckDB for OLAP database as well as OpenLineage and Marquez for complete column level data lineage.</p>
@@ -93,7 +93,7 @@
                             <li><strong>Real-time Tracking:</strong> Hourly API calls during active hours (0-6, 14-23 UTC)</li>
                             <li><strong>Historical Analysis:</strong> Integrates 2+ years of extended streaming history (89K+ plays)</li>
                             <li><strong>Usage Pattern Discovery:</strong> Discover my usage patterns and habits over time</li>
-                            <li><strong>Data Lineage:</strong> Complete column-level lineage tracking with OpenLineage + Marquez</li>
+                            <li><strong>Data Lineage:</strong> Complete automation of column-level lineage tracking with OpenLineage + Marquez</li>
                             <li><strong>Cost Efficient:</strong> 100% open-source tools, hosted locally</li>
                         </ul>
                     </div>
@@ -101,6 +101,7 @@
 
                 <div id="architecture" class="project-section">
                     <h2>2. Architecture</h2>
+                    <h3>2-1. Tools & Technologies</h3>
                     
                     <div class="project-architecture">
                         <figure>
@@ -113,15 +114,14 @@
                     <div id="data-flow">
                         <h3>2-2. Data Flow</h3>
 
-                        <p>Below is the holistic view of the data pipeline orchestrated by Apache Airflow.</p>
-
+                        <p>Below is the holistic view of the data pipeline orchestrated by Apache Airflow:</p>
                         <div class="airflow-dag-image">
                             <figure>
                                 <img src="project images/Airflow DAG.png" alt="Airflow DAG" width="100%"/>
                             </figure>
                         </div>
                         
-                        <p>The main components of the data pipeline are <strong>Extraction</strong>, <strong>Loading</strong>, <strong>Transformation</strong>, <strong>Lineage Tracking</strong>, <strong>Data Sync</strong>, <strong>Quality & Documentation</strong>, and <strong>Slack Notifications</strong>.</p>
+                        <p>The main components of the data pipeline are <strong>Extraction</strong>, <strong>Loading</strong>, <strong>Transformation</strong>, <strong>Lineage Tracking</strong>, <strong>Quality & Documentation</strong>, and <strong>Slack Notifications</strong>.</p>
                         
                         <h4>1. Extraction</h4>
 
@@ -142,23 +142,19 @@
 
                         <h4>4. Lineage Tracking</h4>
 
-                        <p>I implemented OpenLineage to track column level lineage for all dbt models. One challenge I faced here was integrating OpenLineage with dbt. The official documentation suggests that running <code>dbt-ol run</code> instead of <code>dbt run</code> automatically emits column level lineage. However, I found that this approach was not working as expected, so I ended up making a separate script to manually emit the lineage events. This was not what I have aimed for in the first place, but it was the best solution I could come up with at the time. To visualize the lineage, I used the open-source tool Marquez. I was able to visualize the column level lineage for all dbt models through Marquez, but one of the major goals for my next step would be to implement the automation of the lineage tracking process.</p>
-                        
+                        <p>I was able to automate end-to-end column level lineage tracking for all dbt models using OpenLineage. One challenge I faced here was integrating OpenLineage with dbt. The official documentation suggests that running <code>dbt-ol run</code> instead of <code>dbt run</code> automatically emits column level lineage. However, running the command gave me an error saying that dbt-ol does not support duckdb, so as a woraround, I had to make a separate script in python to manually emit the lineage events. Later, I found out that I wasn't downloading the correct version of the package <code>openlineage-dbt</code>, so configuring the exact version of the package resolved the issue, and I was able to automate column level lineage of all 16 dbt models.</p>
+
                         <div class="marquez-lineage-image">
                             <figure>
                                 <img src="project images/Marquez Lineage.png" alt="Marquez Data Lineage" width="100%"/>
                             </figure>
                         </div><br>
 
-                        <h4>5. Data Sync</h4>
-
-                        <p>This process is responsible for syncing the data from DuckDB to PostgreSQL. The reason I did this was because I ran into an issue where I was not able to connect Metabaseto DuckDB directly. I read the documentation and found that I could connect Metabase with DuckDB using Metabase DuckDB Driver. However, I ran into a configuration issue with it and decided to work my way around it by syncing the data to PostgresSQL and then connecting Metabase to PostgresSQL directly. One other major goal that I want to tackle for my next step is to resolve this integration issue and connect Metabase to DuckDB directly so that I don't have to sync the data to PostgresSQL unnecessarily.</p>
-
-                        <h4>6. Quality & Documentation</h4>
+                        <h4>5. Quality & Documentation</h4>
 
                         <p>For the dbt models, I wanted to test out the dbt test and documentation features, so I added some light tests and documentation to the models for the data governance purposes. For the next step, I want to implement more comprehensive data quality checks that cross reference different columns and tables to ensure the data is accurate and consistent. I want to also be able to create a data quality dashboard if I can get the data quality testing data from dbt.</p>
 
-                        <h4>7. Slack Notifications</h4>
+                        <h4>6. Slack Notifications</h4>
 
                         <div class="project-image-row">
                             <figure>
@@ -182,6 +178,7 @@
                             <img src="project images/Metabase3.png" alt="Metabase Dashboard 3" width="100%"/>
                         </figure>
                     </div>
+                    <p>The current official latest version of Metabse has a limitation where it doesn't support DuckDB integration. Due to this issue, I originally had to sync the data to PostgresSQL and then connect Metabase to PostgresSQL directly, which created unnecessary work and time. Fortunately, Metabase had a version with a DuckDB Driver that officially supports DuckDB integration, so I was able to directly connect Metabase to DuckDB and reduce the time and amount of work the data pipeline had to go through.</p>
                 </div>
 
                 <div id="things-I-learned" class="project-section">
@@ -193,10 +190,11 @@
                     <h2>5. Future Improvements</h2>
                     <p>I think there is a lot of room for improvement for this project. As of now, I'm thinking about focusing on the following areas for my next steps:</p>
                     <ul>
-                        <li>Implementing the automation of the lineage tracking process</li>
                         <li>Implementing more comprehensive data quality checks that cross reference different columns and tables to ensure the data is accurate and consistent</li>
                         <li>Creating a data quality dashboard if I can get the data quality testing data from dbt</li>
-                        <li>Resolving the integration issue and connecting Metabase to DuckDB directly so that I don't have to sync the data to PostgresSQL unnecessarily</li>
+                        <li>Connecting the data to this website to create more unique and interactive visualizations</li>
+                        <li>Create more comprehensive visualizations out of the data</li>
+                        <li>Deep dive into the data analysis/data science after switching to Spotify Premium (More advanced data from the API with a Spotify Premium plan)</li>
                     </ul>
                 </div>
 
@@ -211,7 +209,7 @@
                 </div>
 
                 <div class="hypothesis-box">
-                    <h3>📝 License</h3>
+                    <h3>License</h3>
                     <p>This is a personal project for educational and analytical purposes. Spotify API usage complies with <a href="https://developer.spotify.com/terms" target="_blank" class="paper-link">Spotify's Developer Terms</a>.</p>
                 </div>
             </div>
