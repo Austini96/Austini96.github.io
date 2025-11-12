@@ -135,6 +135,7 @@
                         <h4>2. Loading</h4>
 
                         <p>After ingesting the data from the extraction process, they are loaded into DuckDB for further analysis.</p>
+                        <p>One issue I'm facing right now is that with multiple connections to the same DuckDB database, the database file is getting locked and I have to restart the docker container every time to unlock the database. My highest priority right now is to resolve this issue. The major approach I'm trying is to change the database configuration in Metabase to establish a read-only connection, but this doesn't seems to resolve the issue. Other approaches I'm considering is to set up a retry mechanism to set an exponential backoff delay for the connection to the database, but so far, the only temporary resolution is to restart the docker container.</p>
 
                         <h4>3. Transformation (dbt)</h4>
 
