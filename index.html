@@ -29,10 +29,10 @@
         <ul class="nav-menu">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
-            <li><a href="#education">Education</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -42,7 +42,7 @@
         <div class="container home-container">
             <h1><span id="typed-name"></span><span class="typed-cursor">|</span></h1>
             <h2>Data Engineer</h2>
-            <p>Architecting the backbone of data-driven success</p>
+            <p>Building reliable data pipelines, dimensional models, and metadata systems for analytics at scale</p>
         </div>
     </section>
 
@@ -53,52 +53,13 @@
             <div class="about-flex">
                 <div class="about-left">
                     <div class="about-text">
-                        <p>I am a data engineer passionate about building robust and scalable data infrastructure for better data-driven decision-making. Currently at Ruan Transportation Management Systems, I design and maintain enterprise-scale data pipelines using PySpark and SparkSQL in Azure Synapse Analytics, with a focus on dimensional modeling, data ingestion and management, and data governance including data quality and lineage tracking through Microsoft Purview. I've also participated in several studies related to Social Determinants of Health to model and analyze over 20 million patient records across 80+ healthcare sites provided by NIH, as well as built data analytics infrastructure and Power BI dashboards for CIVCO Medical Solutions tracking critical data-driven business insights.</p>
-                        <p>My passion lies in building robust data infrastructure and ensuring the data quality that not only solves immediate challenges but also scales to meet future needs, making data operations more efficient and reliable for everyone. I am also interested in using the data to find critical insights and solve real-world problems.</p>
-                        <p>When I'm not analyzing datasets, you'll find me looking for good restaurants, enjoying a good cup of coffee while listening to music, or playing songs myself with guitar or piano.</p>
+                        <p>I'm a Data Engineer at Ruan Transportation Management Systems, where I build production data infrastructure in Azure Synapse Analytics and Microsoft Fabric. I own the ETL/ELT pipeline for our Oracle-to-cloud migration, serve as technical lead for automated data lineage across 50+ pipelines, and model the fact and dimension tables analysts rely on for enterprise reporting.</p>
+                        <p>My foundation is in data science. I earned an MS in Data Science from the University of Iowa, where I prepared and analyzed 20M+ patient records for NIH-funded healthcare research. That background shapes how I build: I care about data that is well modeled, validated, and traceable, so the people analyzing it can trust what they find.</p>
+                        <p>When I'm not analyzing datasets, you'll find me looking for good restaurants, enjoying a good cup of coffee while listening to music, or playing songs myself with guitar or piano. I also enjoy experimenting with AI to build my own products, like a native macOS app for configuring Bose audio settings, and exploring new AI models and features as they come out.</p>
                     </div>
                 </div>
                 <div class="about-right">
                     <img src="profile_image.jpg" alt="Austin Lee profile photo" class="about-photo">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-        <div class="container">
-            <h2>Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Programming Languages</h3>
-                    <p>Python, MS SQL, T-SQL, PostgreSQL, R, Java</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-tools"></i>
-                    <h3>Tools & Platforms</h3>
-                    <p>Microsoft Azure, Azure Synapse Analytics, Microsoft Purview, Microsoft Fabric, Azure DevOps, Apache Airflow, dbt, DuckDB, Docker, Git, Tableau, Power BI, Microsoft Office, Palantir Foundry, TriNetX, SSMS, DBeaver</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-layer-group"></i>
-                    <h3>Libraries & Frameworks</h3>
-                    <p>Pandas, NumPy, Matplotlib, Scikit-learn, SciPy, PyTorch, PySpark, SparkSQL, Delta Lake</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-brain"></i>
-                    <h3>Technical Skills</h3>
-                    <p>ETL/ELT, Dimensional Modeling, Data Warehousing, Data Pipelines, Data Governance, Data Lineage, Data Quality, CI/CD, Machine Learning, Data Visualization, Data Cleaning, Statistical Analysis, A/B Testing</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-language"></i>
-                    <h3>Languages</h3>
-                    <p>Korean (Native), English (Fluent), Japanese (Advanced; JLPT N2)</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Soft Skills</h3>
-                    <p>Problem Solving, Critical Thinking, Communication, Team Collaboration, Time Management, Adaptability</p>
                 </div>
             </div>
         </div>
@@ -113,11 +74,12 @@
                     <h3>Associate Data Engineer</h3>
                     <p><strong>Ruan Transportation Management Systems</strong> <br><em>July 2025 - Present</em></p>
                     <ul>
-                        <li>Engineered 20+ dimensional model schema additions across core data warehouse fact and dimension tables stored as Delta tables using PySpark and SparkSQL in Azure Synapse Analytics, enabling more granular operational reporting for business stakeholders</li>
-                        <li>Identified and resolved critical data integrity issues including duplicate records, null metrics, incorrect aggregations, and bad key lookups across multiple production fact tables in Azure Synapse Analytics, restoring stakeholder trust in Power BI reporting</li>
-                        <li>Researched and prototyped enterprise data governance capabilities in Microsoft Purview, developing REST API-based solutions for bulk metadata management and customized data lineage management</li>
-                        <li>Developed end-to-end data pipelines for multiple new data products using Delta tables and Azure Synapse Analytics, including a client-specific data product and a third-party time tracking integration</li>
-                        <li>Utilizing Azure DevOps CI/CD pipelines to manage and deploy data pipeline changes, ensuring consistent and reliable delivery of updates to production environments</li>
+                        <li>To migrate on-premises Oracle workloads to the cloud, owned the end-to-end design and development of an ETL/ELT pipeline that unifies 80+ on-prem and cloud sources into silver tables without key collisions, letting both systems run in parallel through the final migration stage ahead of retiring on-prem</li>
+                        <li>With no data lineage in place, served as technical lead for an automated lineage tracking system that integrates LLM-based analysis into CI/CD pipelines; drove architecture decisions and coordinated two engineers, automating lineage across all 50+ data pipelines, with manual validation for cases the automation can't fully resolve, and publishing it to Microsoft Purview via REST API for governance</li>
+                        <li>Partnering with analysts on enterprise reporting, modeled and maintained 50+ fact and dimension tables as Delta tables using PySpark and SparkSQL in Azure Synapse Analytics, including 20+ schema additions, enabling new business measures and 2+ reports, including a Power BI migration to Direct Lake and a data-quality report</li>
+                        <li>Partnered with upstream data owners to investigate and resolve production data-quality issues, including duplicate records, null metrics, incorrect aggregations, and bad key lookups, across 10+ fact tables, improving the reliability of downstream datasets and Power BI reporting</li>
+                        <li>To keep large analytical workloads performant, applied advanced SQL query optimization and data partitioning strategies to terabyte-scale datasets, improving the performance and scalability of analytical queries</li>
+                        <li>To evaluate an AI-powered self-service analytics agent in Microsoft Fabric, built evaluation workflows that established an accuracy baseline, showing that questions requiring business context failed without a semantic layer; now building a Fabric Ontology knowledge base to close that gap</li>
                     </ul>
                 </div>
                 <div class="project-card">
@@ -146,51 +108,11 @@
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section id="education" class="section">
-        <div class="container">
-            <h2>Education</h2>
-            <div class="education-grid">
-                <div class="education-card">
-                    <div class="education-flex">
-                        <div class="education-content">
-                            <h3>Graduate Education</h3>
-                            <div class="edu-group">
-                                <h4>University of Iowa</h4>
-                                <p><strong>MS in Data Science</strong> — Graduated May 2025</p>
-                                <p class="gpa"><strong>GPA:</strong> 3.93/4.00</p>
-                            </div>
-                        </div>
-                        <div class="education-logo">
-                            <img src="Iowa black on gold logo.png" alt="University of Iowa logo" class="uiowa-logo">
-                        </div>
-                    </div>
-                </div>
-                <div class="education-card">
-                    <div class="education-flex">
-                        <div class="education-content">
-                            <h3>Undergraduate Education</h3>
-                            <div class="edu-group">
-                                <h4>University of Iowa</h4>
-                                <p><strong>BA in Computer Science</strong> — Graduated May 2024</p>
-                                <p><strong>BA in Psychology</strong> — Graduated May 2024</p>
-                                <p><strong>Minor in Japanese Language and Literature</strong></p>
-                                <p class="gpa"><strong>GPA:</strong> 3.81/4.00</p>
-                            </div>
-                        </div>
-                        <div class="education-logo">
-                            <img src="Iowa black on gold logo.png" alt="University of Iowa logo" class="uiowa-logo">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Projects Section -->
     <section id="projects" class="section">
         <div class="container">
             <h2>Projects</h2>
+            <h3 class="project-group-title">Data Engineering</h3>
             <div class="projects-grid">
                 <div class="project-card spotify-wrapped">
                     <a class="project-card-link" href="projects/all-time-spotify-wrapped.html" aria-label="All-Time Spotify Wrapped"></a>
@@ -209,6 +131,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <h3 class="project-group-title">Data Science &amp; Analytics</h3>
+            <div class="projects-grid">
                 <div class="project-card diabetes-care">
                     <a class="project-card-link" href="projects/diabetes-care.html" aria-label="Racial Disparities in Diabetes Care"></a>
                     <h3>Racial Disparities in Diabetes Care</h3>
@@ -254,6 +179,86 @@
                                 <span class="tag">SQL</span>
                             </div>
                             <a href="projects/uk-ecommerce.html" class="project-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Programming Languages</h3>
+                    <p>Python, SQL (T-SQL, PostgreSQL), R</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Tools & Platforms</h3>
+                    <p>Azure Synapse Analytics, Microsoft Fabric, Microsoft Purview, Azure DevOps, Apache Airflow, dbt, DuckDB, Docker, Git</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Libraries & Frameworks</h3>
+                    <p>PySpark, SparkSQL, Delta Lake, Pandas, NumPy, Scikit-learn</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Data Engineering</h3>
+                    <p>ETL/ELT, Dimensional Modeling, Data Warehousing, Data Lineage, Data Quality, Data Governance, CI/CD</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Data Science & Analytics</h3>
+                    <p>Machine Learning, Statistical Analysis, A/B Testing, Power BI, Tableau</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Languages</h3>
+                    <p>Korean (Native), English (Fluent), Japanese (Advanced; JLPT N2)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-flex">
+                        <div class="education-content">
+                            <h3>Graduate Education</h3>
+                            <div class="edu-group">
+                                <h4>University of Iowa</h4>
+                                <p><strong>MS in Data Science</strong> — Graduated May 2025</p>
+                                <p class="gpa"><strong>GPA:</strong> 3.93/4.00</p>
+                            </div>
+                        </div>
+                        <div class="education-logo">
+                            <img src="Iowa black on gold logo.png" alt="University of Iowa logo" class="uiowa-logo">
+                        </div>
+                    </div>
+                </div>
+                <div class="education-card">
+                    <div class="education-flex">
+                        <div class="education-content">
+                            <h3>Undergraduate Education</h3>
+                            <div class="edu-group">
+                                <h4>University of Iowa</h4>
+                                <p><strong>BA in Computer Science</strong> — Graduated May 2024</p>
+                                <p><strong>BA in Psychology</strong> — Graduated May 2024</p>
+                                <p><strong>Minor in Japanese Language and Literature</strong></p>
+                                <p class="gpa"><strong>GPA:</strong> 3.81/4.00</p>
+                            </div>
+                        </div>
+                        <div class="education-logo">
+                            <img src="Iowa black on gold logo.png" alt="University of Iowa logo" class="uiowa-logo">
                         </div>
                     </div>
                 </div>

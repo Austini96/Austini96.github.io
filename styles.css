@@ -229,6 +229,9 @@ body {
     margin-top: 2rem;
 }
 
+.project-group-title { font-size: 1.5rem; color: #111; margin-top: 3rem; }
+.project-group-title:first-of-type { margin-top: 0; }
+
 .project-card {
     background: #fff;
     border-radius: 12px;
