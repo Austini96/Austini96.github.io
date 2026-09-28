@@ -30,10 +30,10 @@
         <ul class="nav-menu">
             <li><a href="../index.html#home">Home</a></li>
             <li><a href="../index.html#about">About</a></li>
-            <li><a href="../index.html#skills">Skills</a></li>
             <li><a href="../index.html#experience">Experience</a></li>
-            <li><a href="../index.html#education">Education</a></li>
             <li><a href="../index.html#projects">Projects</a></li>
+            <li><a href="../index.html#skills">Skills</a></li>
+            <li><a href="../index.html#education">Education</a></li>
             <li><a href="../index.html#contact">Contact</a></li>
         </ul>
     </nav>
@@ -56,122 +56,181 @@
                 <ul>
                     <li><a href="#overview">1. Overview</a>
                         <ul>
-                            <li><a href="#objective">1-1. Objective</a></li>
-                            <li><a href="#key-features">1-2. Key Features</a></li>
+                            <li><a href="#problem-goals">1-1. Problem &amp; Goals</a></li>
+                            <li><a href="#key-capabilities">1-2. Key Capabilities</a></li>
                         </ul>
                     </li>
                     <li><a href="#architecture">2. Architecture</a>
                         <ul>
-                            <li><a href="#tools-technologies">2-1. Tools & Technologies</a></li>
-                            <li><a href="#data-flow">2-2. Data Flow</a></li>
+                            <li><a href="#technology-choices">2-1. Technology Choices</a></li>
+                            <li><a href="#pipeline-design">2-2. Pipeline Design</a></li>
                         </ul>
                     </li>
-                    <li><a href="#dashboard-insights">3. Dashboard & Insights</a></li>
-                    <li><a href="#things-I-learned">4. Things I Learned</a></li>
-                    <li><a href="#future-improvements">5. Future Improvements</a></li>
+                    <li><a href="#engineering-challenges">3. Engineering Challenges</a>
+                        <ul>
+                            <li><a href="#duckdb-locks">3-1. DuckDB Concurrency Locks</a></li>
+                            <li><a href="#dbt-openlineage">3-2. dbt + OpenLineage on DuckDB</a></li>
+                            <li><a href="#metabase-duckdb">3-3. Metabase and DuckDB Integration</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#results-dashboard">4. Results &amp; Dashboard</a></li>
+                    <li><a href="#roadmap">5. Roadmap</a></li>
                 </ul>
             </div>
 
             <div class="project-content">
                 <div id="overview" class="project-section">
                     <h2>1. Overview</h2>
-                    
-                    <p>All-Time Spotify Wrapped project aims to create a comprehensive data pipeline that extracts, transforms, and visualizes my complete Spotify listening history using modern data engineering tools and practices. This project recreates <strong>Spotify Wrapped</strong> that can be viewed at any time of year with richer insights than the official version.</p>
+
+                    <p>All-Time Spotify Wrapped is a containerized batch analytics pipeline that turns my Spotify listening activity into a year-round, queryable version of <strong>Spotify Wrapped</strong>. It combines scheduled Spotify Web API ingestion with a multi-year extended streaming history export, models the data into a star schema with dbt on DuckDB, validates it with ~70 dbt tests, and emits column-level lineage for every model to Marquez.</p>
+
+                    <p><a href="https://github.com/Austini96/all-time-spotify-wrapped" target="_blank" rel="noopener noreferrer" class="paper-link">View source on GitHub &rarr;</a></p>
 
                     <div class="hypothesis-box">
-                        <p><strong>Reference:</strong> This project is built upon concepts from <a href="https://github.com/calbergs/spotify-api.git" target="_blank" class="paper-link">spotify-api</a> by calbergs and is developed further into incorporating DuckDB for OLAP database as well as OpenLineage and Marquez for complete column level data lineage.</p>
+                        <p><strong>Reference:</strong> Builds on the ingestion approach from <a href="https://github.com/calbergs/spotify-api.git" target="_blank" class="paper-link">spotify-api</a> by calbergs, extended with a DuckDB warehouse, dimensional models in dbt, a dbt test suite, and automated column-level lineage with OpenLineage and Marquez.</p>
                     </div>
 
-                    <div id="objective">
-                        <h3>1-1. Objective</h3>
-                        <p>The main goal of this project is to extract all of my song listening history data and continuously extract the Spotify usage activity through Spotify API. I will deep dive into my complete song listening history to analyze top artists, tracks, playlists, and listening patterns.</p>
-                    </div>
-
-                    <div id="key-features">
-                        <h3>1-2. Key Features</h3>
+                    <div id="problem-goals">
+                        <h3>1-1. Problem &amp; Goals</h3>
+                        <p>Spotify Wrapped is released once a year in a fixed format, and the Spotify Web API only returns the 50 most recently played tracks, so any listening history that isn't captured in time is lost. The pipeline is designed to:</p>
                         <ul>
-                            <li><strong>Real-time Tracking:</strong> Hourly API calls during active hours (0-6, 14-23 UTC)</li>
-                            <li><strong>Historical Analysis:</strong> Integrates 2+ years of extended streaming history (89K+ plays)</li>
-                            <li><strong>Usage Pattern Discovery:</strong> Discover my usage patterns and habits over time</li>
-                            <li><strong>Data Lineage:</strong> Complete automation of column-level lineage tracking with OpenLineage + Marquez</li>
-                            <li><strong>Cost Efficient:</strong> 100% open-source tools, hosted locally</li>
+                            <li>Capture plays before they fall out of the API window</li>
+                            <li>Merge ongoing API data with the historical export without duplicates</li>
+                            <li>Model the data for analysis with a dimensional (star) schema</li>
+                            <li>Make every metric traceable back to its source columns</li>
+                            <li>Run unattended, with alerts when something fails</li>
+                        </ul>
+                    </div>
+
+                    <div id="key-capabilities">
+                        <h3>1-2. Key Capabilities</h3>
+                        <ul>
+                            <li><strong>Scheduled Ingestion:</strong> Airflow runs the pipeline 8 times a day (hourly 9 AM&ndash;3 PM CST, plus 9 PM CST)</li>
+                            <li><strong>Listening History:</strong> 33.5K+ plays (Mar 2022 &ndash; Sep 2026): 29.7K+ backfilled from the extended streaming history export and 3.8K+ captured through the API</li>
+                            <li><strong>Dimensional Model:</strong> 15 dbt models across staging, marts, and analytics layers</li>
+                            <li><strong>Data Quality:</strong> ~70 dbt tests on every run</li>
+                            <li><strong>Data Lineage:</strong> Column-level lineage for every dbt model with OpenLineage and Marquez</li>
+                            <li><strong>Alerting:</strong> Slack notifications on task retries and failures</li>
+                            <li><strong>Open-Source Stack:</strong> Fully containerized with Docker Compose</li>
                         </ul>
                     </div>
                 </div>
 
                 <div id="architecture" class="project-section">
                     <h2>2. Architecture</h2>
-                    <h3>2-1. Tools & Technologies</h3>
-                    
+
                     <div class="project-architecture">
                         <figure>
                             <img src="project images/Architecture.png" alt="Architecture" width="100%"/>
                         </figure>
                     </div>
 
-                    <p>One of the main achievements I wanted out of this project was to learn different tools and technologies by building a complete data pipeline. Since my work environment is primarily in Azure Synapse Analytics, I wanted to use well known open-source tools and technologies such as Apache Airflow, dbt, DuckDB, and Docker to learn what they are capable of and why they are widely used in the industry. Also, as part of data governance, I was interested in implementing an end-to-end column level data lineage, and this project was the perfect opportunity to try implementing it using OpenLineage and Marquez.</p>
+                    <div id="technology-choices">
+                        <h3>2-1. Technology Choices</h3>
+                        <ul>
+                            <li><strong>Apache Airflow:</strong> Orchestration with task dependencies, retries (2 attempts, 5 minutes apart), a single-slot pool that serializes DuckDB access, and failure/retry callbacks for alerting</li>
+                            <li><strong>DuckDB:</strong> Embedded columnar OLAP engine; a single file with no server to operate, and fast analytical queries at this data size. The tradeoff is its single-writer file lock (see <a href="#duckdb-locks" class="paper-link">3-1</a>).</li>
+                            <li><strong>dbt Core:</strong> SQL-based modeling, testing, and documentation, with <code>dbt_utils</code> for surrogate keys</li>
+                            <li><strong>OpenLineage + Marquez:</strong> Open lineage standard with column-level granularity and a UI for exploring it</li>
+                            <li><strong>Metabase (DuckDB driver):</strong> BI layer that queries DuckDB directly</li>
+                            <li><strong>Docker Compose:</strong> One reproducible environment for Airflow, Metabase, and Marquez</li>
+                        </ul>
+                    </div>
 
-                    <div id="data-flow">
-                        <h3>2-2. Data Flow</h3>
+                    <div id="pipeline-design">
+                        <h3>2-2. Pipeline Design</h3>
 
-                        <p>Below is the holistic view of the data pipeline orchestrated by Apache Airflow:</p>
+                        <p>End-to-end view of the pipeline orchestrated by Apache Airflow:</p>
                         <div class="airflow-dag-image">
                             <figure>
                                 <img src="project images/Airflow DAG.png" alt="Airflow DAG" width="100%"/>
                             </figure>
                         </div>
-                        
-                        <p>The main components of the data pipeline are <strong>Extraction</strong>, <strong>Loading</strong>, <strong>Transformation</strong>, <strong>Lineage Tracking</strong>, <strong>Quality & Documentation</strong>, and <strong>Slack Notifications</strong>.</p>
-                        
-                        <h4>1. Extraction</h4>
 
-                        <p>The extraction process has two main parts: <strong>API Extraction</strong> and <strong>Extended History</strong>.</p>
-                        
+                        <h4>1. Ingestion</h4>
                         <ul>
-                            <li><strong>API Extraction</strong> is responsible for fetching the recently played tracks and their audio features. The limitation of this API extraction is that it only returns 50 most recent tracks, and this is where the extended history comes into play.</li>
-                            <li><strong>Extended History</strong> is responsible for fetching the historical streaming data from Spotify. Unlike the API extraction, this I need to manually request the extended history data from Spotify. Once I receive the data in JSON format, I need to parse the data and store it as a CSV file.</li>
+                            <li><strong>API Extraction:</strong> Pulls recently played tracks (the 50 most recent) along with artist and playlist details, and writes them to timestamped CSV files. Spotify credentials are managed through an Airflow Connection rather than a local token cache.</li>
+                            <li><strong>Extended History:</strong> Spotify's extended streaming history export (JSON) backfills history the API can't return. Plays are deduplicated in the staging layer before they reach the fact table.</li>
                         </ul>
 
                         <h4>2. Loading</h4>
+                        <p>API loads into DuckDB raw tables are idempotent: plays are inserted with <code>ON CONFLICT DO NOTHING</code>, and artists, playlists, and playlist tracks are upserted, so reruns don't duplicate API data. File paths are validated before they are used in SQL to prevent injection.</p>
 
-                        <p>After ingesting the data from the extraction process, they are loaded into DuckDB for further analysis.</p>
-                        <p>One issue I'm facing right now is that with multiple connections to the same DuckDB database, the database file is getting locked and I have to restart the docker container every time to unlock the database. My highest priority right now is to resolve this issue. The major approach I'm trying is to change the database configuration in Metabase to establish a read-only connection, but this doesn't seems to resolve the issue. Other approaches I'm considering is to set up a retry mechanism to set an exponential backoff delay for the connection to the database, but so far, the only temporary resolution is to restart the docker container.</p>
+                        <h4>3. Orchestration</h4>
+                        <p>Each run validates the environment, extracts from the API, loads API data, loads extended history, installs dbt dependencies, and runs <code>dbt-ol run</code>, followed by <code>dbt test</code> and <code>dbt docs generate</code> in parallel. All DuckDB tasks share a single-slot Airflow pool and the DAG is limited to one active run, so only one process writes to the database at a time.</p>
 
-                        <h4>3. Transformation (dbt)</h4>
+                        <h4>4. Data Model (dbt)</h4>
+                        <ul>
+                            <li><strong>Staging (views):</strong> Deduplicates plays, parses timestamps, and filters out plays shorter than a minimum duration</li>
+                            <li><strong>Marts (tables):</strong> <code>fct_listening_history</code> with <code>dim_tracks</code>, <code>dim_artists</code>, <code>dim_albums</code>, and <code>dim_playlists</code></li>
+                            <li><strong>Analytics (tables):</strong> Daily top tracks and artists, hourly listening patterns, consecutive listening sessions, and playlist analysis</li>
+                        </ul>
+                        <p>A surrogate <code>play_id</code> generated from <code>track_id</code> and <code>played_at</code> keeps API and export records from colliding. Audio-feature models and columns were removed after Spotify deprecated that part of its API.</p>
 
-                        <p>dbt is used to transform the loaded data into a star schema for analysis. What I focused here was to have a proper dimensional modeling implemented and have a medallion structure. The tables are organized into three different layers: <strong>Staging Layer</strong>, <strong>Marts Layer</strong>, and <strong>Analytics Layer</strong>. Tables in staging layer is essentially silver tables where the raw data is loaded and cleaned up. The gold tables are in the mart layer, having fact tables and dimension tables from the silver tables. The analytics layer is the layer where different tables for analytics are created.</p>
+                        <h4>5. Data Quality</h4>
+                        <p>64 schema tests (unique, not null, relationships) plus 6 custom tests covering duplicate plays, valid durations, positive play counts, sequential sessions, valid extended-history IDs, and a reconciliation test that checks fact-table play counts against dimension totals. Source freshness thresholds are configured (6-hour warning and 24-hour error on API plays), but they are not yet enforced in the DAG.</p>
 
-                        <h4>4. Lineage Tracking</h4>
-
-                        <p>I was able to automate end-to-end column level lineage tracking for all dbt models using OpenLineage. One challenge I faced here was integrating OpenLineage with dbt. The official documentation suggests that running <code>dbt-ol run</code> instead of <code>dbt run</code> automatically emits column level lineage. However, running the command gave me an error saying that dbt-ol does not support duckdb, so as a woraround, I had to make a separate script in python to manually emit the lineage events. Later, I found out that I wasn't downloading the correct version of the package <code>openlineage-dbt</code>, so configuring the exact version of the package resolved the issue, and I was able to automate column level lineage of all 16 dbt models.</p>
-
+                        <h4>6. Lineage</h4>
+                        <p>Running dbt through <code>dbt-ol run</code> emits OpenLineage events for every model, and Marquez shows column-level lineage from raw sources through staging and marts to the analytics tables.</p>
                         <div class="marquez-lineage-image">
                             <figure>
                                 <img src="project images/Marquez Lineage.png" alt="Marquez Data Lineage" width="100%"/>
                             </figure>
                         </div><br>
 
-                        <h4>5. Quality & Documentation</h4>
-
-                        <p>For the dbt models, I wanted to test out the dbt test and documentation features, so I added some light tests and documentation to the models for the data governance purposes. For the next step, I want to implement more comprehensive data quality checks that cross reference different columns and tables to ensure the data is accurate and consistent. I want to also be able to create a data quality dashboard if I can get the data quality testing data from dbt.</p>
-
-                        <h4>6. Slack Notifications</h4>
-
+                        <h4>7. Alerting</h4>
                         <div class="project-image-row">
                             <figure>
                                 <img src="project images/Slack Notification.png" alt="Slack Notification" width="100%"/>
                             </figure>
                         </div>
-
-                        <p>To ensure that I am notified for any pipeline failures or retries, I integrated Slack into the pipeline to send notifications to my Slack workspace. The message tells me the task that failed, the error message, and the retry count. I thought this was a good way to ensure even when I am out of home to check on the pipeline, I can still be notified and take action accordingly.</p>
+                        <p>A retry callback posts to Slack on every retry attempt, and a failure callback fires once retries are exhausted, including links to the failed tasks and the error message.</p>
                     </div>
                 </div>
 
-                <div id="dashboard-insights" class="project-section">
-                    <h2>3. Dashboard & Insights</h2>
-                    
+                <div id="engineering-challenges" class="project-section">
+                    <h2>3. Engineering Challenges</h2>
+
+                    <div id="duckdb-locks">
+                        <h3>3-1. DuckDB Concurrency Locks (Open)</h3>
+                        <ul>
+                            <li><strong>Problem:</strong> DuckDB allows only one read-write process per database file. With Airflow tasks and Metabase connecting to the same file, the database locked and the containers had to be restarted.</li>
+                            <li><strong>Root Cause:</strong> After serializing the pipeline's own access, Metabase's connection was identified as the remaining lock holder.</li>
+                            <li><strong>What I Did:</strong> Serialized DuckDB tasks with a single-slot Airflow pool, one active DAG run, and sequential loaders; switched Metabase to a read-only connection and upgraded it from v0.51.3 to v0.56.9; simplified the loader's connection handling, removing 170 lines of code.</li>
+                            <li><strong>Status &amp; Tradeoff:</strong> Locks still recur while Metabase holds a connection. Separating the BI read path from the pipeline's write path is under evaluation. The underlying tradeoff is DuckDB's embedded, single-file simplicity versus concurrent multi-process access.</li>
+                        </ul>
+                    </div>
+
+                    <div id="dbt-openlineage">
+                        <h3>3-2. dbt + OpenLineage on DuckDB</h3>
+                        <ul>
+                            <li><strong>Problem:</strong> <code>dbt-ol run</code> failed with an error reporting that DuckDB was unsupported, so a custom Python script was used in the interim to emit lineage events manually.</li>
+                            <li><strong>Root Cause:</strong> An incompatible version of the <code>openlineage-dbt</code> package.</li>
+                            <li><strong>What I Did:</strong> Pinned <code>openlineage-dbt==1.26.0</code>; <code>dbt-ol run</code> now emits lineage for all 15 models automatically, and the custom script was retired.</li>
+                            <li><strong>Tradeoff:</strong> The pinned version has to be revalidated on every dbt or OpenLineage upgrade.</li>
+                        </ul>
+                    </div>
+
+                    <div id="metabase-duckdb">
+                        <h3>3-3. Metabase and DuckDB Integration</h3>
+                        <ul>
+                            <li><strong>Problem:</strong> The official Metabase image couldn't read DuckDB, so data had to be synced to PostgreSQL just for BI, adding an extra pipeline step and a duplicate copy of the data.</li>
+                            <li><strong>What I Did:</strong> Built a custom Metabase image with MotherDuck's DuckDB driver and removed the PostgreSQL sync. The image also runs Metabase as a non-root user through a <code>gosu</code> entrypoint.</li>
+                            <li><strong>Tradeoff:</strong> Reading DuckDB directly simplified the architecture, but it is also what introduced the lock contention described in <a href="#duckdb-locks" class="paper-link">3-1</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="results-dashboard" class="project-section">
+                    <h2>4. Results &amp; Dashboard</h2>
+                    <ul>
+                        <li>33.5K+ plays modeled in <code>fct_listening_history</code> (Mar 2022 &ndash; Sep 2026): 29.7K+ from the historical export and 3.8K+ captured through 8 scheduled runs a day</li>
+                        <li>15 dbt models and ~70 data-quality tests executed on every run</li>
+                        <li>Column-level lineage available for every model</li>
+                    </ul>
+
                     <h3>Metabase Dashboard</h3>
-                    <p>Below are visualizations from the Metabase dashboard showcasing comprehensive Spotify listening analytics:</p>
+                    <p>All-time and yearly listening trends by track, artist, and playlist:</p>
                     <div class="project-image-row">
                         <figure>
                             <img src="project images/Metabase1.png" alt="Metabase Dashboard 1" width="100%"/>
@@ -179,40 +238,29 @@
                             <img src="project images/Metabase3.png" alt="Metabase Dashboard 3" width="100%"/>
                         </figure>
                     </div>
-                    <p>The current official latest version of Metabse has a limitation where it doesn't support DuckDB integration. Due to this issue, I originally had to sync the data to PostgresSQL and then connect Metabase to PostgresSQL directly, which created unnecessary work and time. Fortunately, Metabase had a version with a DuckDB Driver that officially supports DuckDB integration, so I was able to directly connect Metabase to DuckDB and reduce the time and amount of work the data pipeline had to go through.</p>
                 </div>
 
-                <div id="things-I-learned" class="project-section">
-                    <h2>4. Things I Learned</h2>
-                    <p>Throughout the course of this project, I learned a lot about the foundations of data engineering and data pipeline orchestration. This was a great opportunity to learn about modern data engineering technique, including how to use Apache Airflow to orchestrate the data pipeline and how to use dbt to transform the data. I read a lot of articles about how good DuckDB is, so having a chance to have the experience of loading the data in DuckDB gave me a better understanding of its capabilities. One thing that I'm really satisfied about this project is that I got to use OpenLineage to track the column level lineage of the dataand visualize it through Marquez. I have been wanting to learn how to incorporate OpenLineage specifically to retrieve column level lineage from my work environment, so this project was a great starting point on that journey.</p>
-                </div>
-
-                <div id="future-improvements" class="project-section">
-                    <h2>5. Future Improvements</h2>
-                    <p>I think there is a lot of room for improvement for this project. As of now, I'm thinking about focusing on the following areas for my next steps:</p>
+                <div id="roadmap" class="project-section">
+                    <h2>5. Roadmap</h2>
                     <ul>
-                        <li>Implementing more comprehensive data quality checks that cross reference different columns and tables to ensure the data is accurate and consistent</li>
-                        <li>Creating a data quality dashboard if I can get the data quality testing data from dbt</li>
-                        <li>Connecting the data to this website to create more unique and interactive visualizations</li>
-                        <li>Create more comprehensive visualizations out of the data</li>
-                        <li>Deep dive into the data analysis/data science after switching to Spotify Premium (More advanced data from the API with a Spotify Premium plan)</li>
+                        <li>Resolve DuckDB lock contention by separating BI reads from pipeline writes</li>
+                        <li>Add <code>dbt source freshness</code> to the DAG so the configured thresholds are enforced</li>
+                        <li>Make the extended history load idempotent; the raw table currently holds repeated loads of the export, which staging deduplicates</li>
+                        <li>Build a data-quality dashboard from dbt test results</li>
+                        <li>Support multiple users, each with their own listening history and analytics</li>
+                        <li>Publish interactive visualizations of the data on this website</li>
                     </ul>
-                    <p>Along with the above improvements, I'm planning on having a major update on the project to make it be multi-user compatible. Having multiple users be able to use this project to see their own music listening history and analytics would be a great addition and would make the project significantly more useful.</p>
+                    <p><strong>At production scale</strong>, I would move storage to a warehouse or lakehouse with concurrent access, switch full table rebuilds to incremental dbt models, run dbt tests in CI on every pull request, and manage secrets in a dedicated secret manager.</p>
                 </div>
 
                 <div class="hypothesis-box">
                     <h3>Acknowledgments</h3>
                     <ul>
-                        <li>calbergs for the basic guideline of the project</li>
-                        <li>Spotify for providing comprehensive Web API</li>
+                        <li>calbergs' spotify-api for the original ingestion approach</li>
+                        <li>Spotify for the Web API</li>
                         <li>Open-source communities behind Airflow, dbt, DuckDB, OpenLineage, and Marquez</li>
-                        <li>Inspired by Spotify Wrapped</li>
                     </ul>
-                </div>
-
-                <div class="hypothesis-box">
-                    <h3>License</h3>
-                    <p>This is a personal project for educational and analytical purposes. Spotify API usage complies with <a href="https://developer.spotify.com/terms" target="_blank" class="paper-link">Spotify's Developer Terms</a>.</p>
+                    <p>Spotify API usage complies with <a href="https://developer.spotify.com/terms" target="_blank" class="paper-link">Spotify's Developer Terms</a>.</p>
                 </div>
             </div>
         </div>
