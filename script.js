@@ -80,4 +80,49 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
     if (target) typeCycle();
-}); 
+});
+
+// GA4 section read tracking: times how long each section sits on the viewport's middle line
+(() => {
+    if (typeof gtag !== 'function' || !('IntersectionObserver' in window)) return;
+
+    const MIN_DWELL_MS = 2000; // skip sections that just flash past during nav jumps
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    let current = null;
+    let start = 0;
+
+    function flush() {
+        if (!current) return;
+        const dwell = Math.round(performance.now() - start);
+        if (dwell >= MIN_DWELL_MS) {
+            gtag('event', 'section_read', {
+                section: current.id,
+                section_index: sections.indexOf(current),
+                dwell_ms: dwell
+            });
+        }
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(({ target, isIntersecting }) => {
+            if (isIntersecting) {
+                flush();
+                current = target;
+                start = performance.now();
+            } else if (target === current) {
+                flush();
+                current = null;
+            }
+        });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            flush();
+        } else {
+            start = performance.now();
+        }
+    });
+})();
